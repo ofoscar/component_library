@@ -1,0 +1,7 @@
+.cardContainer{
+  padding: 1rem;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
