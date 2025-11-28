@@ -1,20 +1,20 @@
 'use client';
 
-import Link from 'next/link';
 import LoginForm from './components/LoginForm';
 import ProductCard from './components/ProductCard';
-import UserProfile from './components/UserProfile';
+import AppBar from './components/AppBar';
 import { useAuth } from './services/auth-context';
 
 const HomePage = () => {
   return (
-    <>
-      <UserProfile />
-      <div style={{ marginTop: '20px' }}>
-        <Link href='/users'>Go to Users</Link>
+    <div className='min-h-screen'>
+      <AppBar />
+      
+      {/* Main Content */}
+      <div className='p-4'>
+        <ProductCard />
       </div>
-      <ProductCard />
-    </>
+    </div>
   );
 };
 
@@ -23,19 +23,15 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <main>
-        <div className='p-4 flex flex-col items-center'>
-          <p>Loading...</p>
-        </div>
+      <main className='flex items-center justify-center min-h-screen'>
+        <p>Loading...</p>
       </main>
     );
   }
 
   return (
     <main>
-      <div className='p-4 flex flex-col items-center'>
-        {isAuthenticated ? <HomePage /> : <LoginForm />}
-      </div>
+      {isAuthenticated ? <HomePage /> : <LoginForm />}
     </main>
   );
 }
