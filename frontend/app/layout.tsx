@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Next.js App',
-  description: 'Next.js app with authentication',
+  title: 'Components - library',
+  description: 'made with ts, nodejs, next, tailwind',
 };
 
 export default function RootLayout({
