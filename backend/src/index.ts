@@ -19,15 +19,22 @@ const port = process.env.PORT || 5100;
 app.use(
   cors({
     origin: (origin, callback) => {
+      console.log('CORS Origin:', origin);
+      console.log('NODE_ENV:', process.env.NODE_ENV);
+      console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+
       if (process.env.NODE_ENV === 'production') {
         const allowedOrigins = [
           'https://frontend-production-02bd.up.railway.app',
-          process.env.FRONTEND_URL?.replace(/\/$/, ''), // Remove trailing slash if exists
+          process.env.FRONTEND_URL,
         ].filter(Boolean);
+
+        console.log('Allowed origins:', allowedOrigins);
 
         if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
         } else {
+          console.log('CORS blocked origin:', origin);
           callback(new Error('Not allowed by CORS'));
         }
       } else {
@@ -44,6 +51,8 @@ app.use(
       }
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 app.use(express.json());
