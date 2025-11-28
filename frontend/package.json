@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start -p $PORT",
+    "lint": "eslint",
+    "railway:build": "next build",
+    "railway:start": "next start -p $PORT"
   },
   "dependencies": {
     "@sglara/cn": "^1.0.0",

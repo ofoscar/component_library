@@ -1,4 +1,4 @@
-# Railway Deployment Guide
+# Railway Frontend Deployment Guide
 
 This guide will help you deploy your Next.js frontend to Railway with a randomly generated domain.
 
@@ -20,13 +20,23 @@ This guide will help you deploy your Next.js frontend to Railway with a randomly
 
 2. **Configure Deployment**
    - Railway will automatically use the `railway.toml` configuration
-   - The build command will be: `npm run build:frontend`
-   - The start command will be: `npm run start:frontend`
-   - Port will be automatically detected (3000)
+   - The build command will be: `./railway-build.sh`
+   - The start command will be: `./railway-start.sh`
+   - Port will be automatically set to 3000
 
-3. **Deploy**
+3. **Environment Variables Setup**
+   - In Railway dashboard, go to "Variables" tab
+   - Add the following variables:
+     - `NODE_ENV=production`
+     - `PORT=3000`
+     - `NEXT_PUBLIC_API_URL=` (leave empty for now, update when backend is deployed)
+     - `RAILWAY_ENVIRONMENT=production`
+     - `NEXT_TELEMETRY_DISABLED=1`
+
+4. **Deploy**
    - Click "Deploy" and Railway will:
-     - Install dependencies
+     - Run the custom build script
+     - Install frontend dependencies
      - Build your Next.js application
      - Start the production server
      - Generate a random domain (e.g., `your-app-production-abc123.up.railway.app`)

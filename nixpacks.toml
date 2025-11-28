@@ -4,12 +4,22 @@ version = "20.18.0"
 [variables]
 NODE_VERSION = "20.18.0"
 NODE_ENV = "production"
+NPM_CONFIG_PRODUCTION = "false"
+PORT = "3000"
 
 [phases.setup]
-cmds = ["npm install --prefix frontend"]
+nixPkgs = ["nodejs_20", "npm"]
+
+[phases.install]
+dependsOn = ["setup"]
+cmds = ["chmod +x railway-build.sh railway-start.sh"]
 
 [phases.build]
-cmds = ["npm run build --prefix frontend"]
+dependsOn = ["install"]
+cmds = ["./railway-build.sh"]
 
-[phases.start]
-cmd = "npm start --prefix frontend"
+[start]
+cmd = "./railway-start.sh"
+
+[staticAssets]
+"frontend/public" = "/"
