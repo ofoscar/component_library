@@ -1,13 +1,14 @@
 'use client';
 
 import { useAuth } from '@/app/services/auth-context';
+import { cn } from '@sglara/cn';
 import { useState } from 'react';
 import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
   const { login, isLoading, error } = useAuth();
-  const [email, setEmail] = useState('test@example.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +30,7 @@ export default function LoginForm() {
         <div className={styles.error}>{localError || error}</div>
       )}
 
-      <div className={styles.formGroup}>
+      <div className={cn(styles.formGroup, 'min-w-[300px]')}>
         <label htmlFor='email'>Email</label>
         <input
           id='email'
@@ -38,6 +39,7 @@ export default function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           required
+          placeholder='mail@example.com'
         />
       </div>
 
@@ -50,6 +52,7 @@ export default function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
           required
+          placeholder='********'
         />
       </div>
 
@@ -60,10 +63,6 @@ export default function LoginForm() {
       >
         {isLoading ? 'Logging in...' : 'Login'}
       </button>
-
-      <p className={styles.note}>
-        Test credentials: test@example.com / password123
-      </p>
 
       <p className={styles.note}>
         Don't have an account?{' '}

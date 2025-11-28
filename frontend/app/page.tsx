@@ -6,6 +6,18 @@ import ProductCard from './components/ProductCard';
 import UserProfile from './components/UserProfile';
 import { useAuth } from './services/auth-context';
 
+const HomePage = () => {
+  return (
+    <>
+      <UserProfile />
+      <div style={{ marginTop: '20px' }}>
+        <Link href='/users'>Go to Users</Link>
+      </div>
+      <ProductCard />
+    </>
+  );
+};
+
 export default function Home() {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -22,18 +34,7 @@ export default function Home() {
   return (
     <main>
       <div className='p-4 flex flex-col items-center'>
-        <h1>Welcome</h1>
-        {isAuthenticated ? (
-          <>
-            <UserProfile />
-            <div style={{ marginTop: '20px' }}>
-              <Link href='/users'>Go to Users</Link>
-            </div>
-            <ProductCard />
-          </>
-        ) : (
-          <LoginForm />
-        )}
+        {isAuthenticated ? <HomePage /> : <LoginForm />}
       </div>
     </main>
   );
