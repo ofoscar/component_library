@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import connectDB from './config/database';
 import authRoutes from './routes/auth';
+import subscribeRoutes from './routes/subscribe';
+import trackingRoutes from './routes/tracking';
 
 // Load environment variables
 dotenv.config();
@@ -32,6 +34,8 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/subscribe', subscribeRoutes);
+app.use('/api/tracking', trackingRoutes);
 
 // Error handling middleware
 app.use(
