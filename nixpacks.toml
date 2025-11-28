@@ -1,6 +1,10 @@
 [providers.node]
 version = "20.18.0"
 
+[variables]
+NODE_VERSION = "20.18.0"
+NODE_ENV = "production"
+
 [phases.setup]
 cmds = ["npm install --prefix frontend"]
 
@@ -9,6 +13,3 @@ cmds = ["npm run build --prefix frontend"]
 
 [phases.start]
 cmd = "npm start --prefix frontend"
-
-[variables]
-NODE_ENV = "production"
