@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDB = async (): Promise<void> => {
   try {
     const mongoURI =
-      process.env.MONGODB_URI || 'mongodb://localhost:27017/nextjs-app';
+      process.env.MONGODB_URI || 'mongodb://localhost:27017/components_library';
 
     await mongoose.connect(mongoURI);
 

@@ -64,6 +64,13 @@ export default function LoginForm() {
       <p className={styles.note}>
         Test credentials: test@example.com / password123
       </p>
+
+      <p className={styles.note}>
+        Don't have an account?{' '}
+        <a href='/register' className={styles.link}>
+          Sign up here
+        </a>
+      </p>
     </form>
   );
 }

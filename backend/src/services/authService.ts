@@ -1,36 +1,13 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-// Simple in-memory user storage (replace with database in production)
-interface User {
-  id: string;
-  email: string;
-  password: string;
-  name: string;
-}
-
-const users: Map<string, User> = new Map();
-
-// Initialize with a test user
-const testUser: User = {
-  id: '1',
-  email: 'test@example.com',
-  name: 'Test User',
-  password: bcrypt.hashSync('password123', 10),
-};
-users.set(testUser.email, testUser);
+import { IUser, User } from '../models/User';
 
 export class AuthService {
   static async register(
     email: string,
     password: string,
     name: string,
-  ): Promise<User> {
-    // Check if user exists
-    if (users.has(email)) {
-      throw new Error('User already exists');
-    }
-
+  ): Promise<IUser> {
     // Validate email and password
     if (!email || !password) {
       throw new Error('Email and password are required');
@@ -40,27 +17,32 @@ export class AuthService {
       throw new Error('Password must be at least 6 characters');
     }
 
+    // Check if user exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser: User = {
-      id: Date.now().toString(),
+    const newUser = new User({
       email,
       name: name || email.split('@')[0],
       password: hashedPassword,
-    };
+    });
 
-    users.set(email, newUser);
+    await newUser.save();
     return newUser;
   }
 
   static async login(
     email: string,
     password: string,
-  ): Promise<{ token: string; user: Omit<User, 'password'> }> {
+  ): Promise<{ token: string; user: any }> {
     // Find user
-    const user = users.get(email);
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error('Invalid email or password');
     }
@@ -73,12 +55,13 @@ export class AuthService {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user._id.toString(), email: user.email },
       process.env.JWT_SECRET || 'your_secret_key',
       { expiresIn: '7d' },
     );
 
-    const { password: _, ...userWithoutPassword } = user;
+    const userObject = user.toObject();
+    const { password: _, ...userWithoutPassword } = userObject;
     return { token, user: userWithoutPassword };
   }
 
@@ -94,13 +77,8 @@ export class AuthService {
     }
   }
 
-  static getUserById(id: string): Omit<User, 'password'> | null {
-    for (const user of users.values()) {
-      if (user.id === id) {
-        const { password: _, ...userWithoutPassword } = user;
-        return userWithoutPassword;
-      }
-    }
-    return null;
+  static async getUserById(id: string): Promise<any | null> {
+    const user = await User.findById(id).select('-password');
+    return user;
   }
 }
