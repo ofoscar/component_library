@@ -7,6 +7,7 @@ import Card from './components/Card';
 import Input from './components/Input';
 import LoginForm from './components/LoginForm';
 import BarChart from './components/charts/BarChart';
+import PieChart from './components/charts/PieChart';
 import { Modal } from './components/ui';
 import { useAuth } from './services/auth-context';
 import { subscribeAPI } from './services/subscribeAPI';
@@ -255,7 +256,6 @@ const HomePage = () => {
             subtitle='Real-time usage statistics'
             variant='elevated'
             padding='sm'
-            className='flex flex-col items-center'
             action={
               <OpenModalButton
                 onClick={() => setIsModalOpen(true)}
@@ -263,30 +263,38 @@ const HomePage = () => {
               />
             }
           >
-            <BarChart
-              data={[
-                {
-                  label: 'Button',
-                  value: trackingStats?.totalCount || 0,
-                  color: '#3B82F6',
-                },
-                { label: 'Input', value: 10, color: '#8B5CF6' },
-                {
-                  label: 'Modal',
-                  value:
-                    trackingStats?.clickCounts?.find(
-                      (item) => item._id.buttonId === 'modal-open-button',
-                    )?.count || 0,
-                  color: '#10B981',
-                },
-                { label: 'Card', value: 30, color: '#F59E0B' },
-              ]}
-              height={200}
-              className='mb-4 w-full'
-            />
-            <Button variant='primary' size='md' onClick={handleTestButtonClick}>
-              Test Button
-            </Button>
+            <div className='flex flex-col gap-4 items-center'>
+              <div className='w-full'>
+                <BarChart
+                  data={[
+                    {
+                      label: 'Button',
+                      value: trackingStats?.totalCount || 0,
+                      color: '#3B82F6',
+                    },
+                    { label: 'Input', value: 15, color: '#8B5CF6' },
+                    {
+                      label: 'Modal',
+                      value:
+                        trackingStats?.clickCounts?.find(
+                          (item) => item._id.buttonId === 'modal-open-button',
+                        )?.count || 0,
+                      color: '#10B981',
+                    },
+                    { label: 'Card', value: 25, color: '#F59E0B' },
+                  ]}
+                  height={200}
+                  className='w-full'
+                />
+              </div>
+              <Button
+                variant='primary'
+                size='md'
+                onClick={handleTestButtonClick}
+              >
+                Test Button
+              </Button>
+            </div>
 
             {/* Real-time click count */}
             <div className='mt-4 text-center'>
@@ -311,12 +319,29 @@ const HomePage = () => {
             subtitle='Everything you need'
             variant='outlined'
           >
-            <ul className='text-gray-700 space-y-2'>
-              <li>• Easy to use interface</li>
-              <li>• Powerful search functionality</li>
-              <li>• Responsive design</li>
-              <li>• Modern components</li>
-            </ul>
+            <div className='w-full'>
+              <PieChart
+                data={[
+                  {
+                    label: 'Button',
+                    value: trackingStats?.totalCount || 0,
+                    color: '#3B82F6',
+                  },
+                  { label: 'Input', value: 15, color: '#8B5CF6' },
+                  {
+                    label: 'Modal',
+                    value:
+                      trackingStats?.clickCounts?.find(
+                        (item) => item._id.buttonId === 'modal-open-button',
+                      )?.count || 0,
+                    color: '#10B981',
+                  },
+                  { label: 'Card', value: 25, color: '#F59E0B' },
+                ]}
+                size={250}
+                className='w-full'
+              />
+            </div>
           </Card>
           <Card
             title='Support'
@@ -360,27 +385,50 @@ const HomePage = () => {
               Real-time Usage Statistics
             </h3>
             <div className='bg-gray-50 rounded-lg p-4'>
-              <BarChart
-                data={[
-                  {
-                    label: 'Button Clicks',
-                    value: trackingStats?.totalCount || 0,
-                    color: '#3B82F6',
-                  },
-                  { label: 'Input Focus', value: 15, color: '#8B5CF6' },
-                  {
-                    label: 'Modal Opens',
-                    value:
-                      trackingStats?.clickCounts?.find(
-                        (item) => item._id.buttonId === 'modal-open-button',
-                      )?.count || 0,
-                    color: '#10B981',
-                  },
-                  { label: 'Card Views', value: 35, color: '#F59E0B' },
-                ]}
-                height={250}
-                className='w-full'
-              />
+              <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
+                <BarChart
+                  data={[
+                    {
+                      label: 'Button',
+                      value: trackingStats?.totalCount || 0,
+                      color: '#3B82F6',
+                    },
+                    { label: 'Input', value: 15, color: '#8B5CF6' },
+                    {
+                      label: 'Modal',
+                      value:
+                        trackingStats?.clickCounts?.find(
+                          (item) => item._id.buttonId === 'modal-open-button',
+                        )?.count || 0,
+                      color: '#10B981',
+                    },
+                    { label: 'Card', value: 35, color: '#F59E0B' },
+                  ]}
+                  height={250}
+                  className='w-full'
+                />
+                <PieChart
+                  data={[
+                    {
+                      label: 'Button',
+                      value: trackingStats?.totalCount || 0,
+                      color: '#3B82F6',
+                    },
+                    { label: 'Input', value: 15, color: '#8B5CF6' },
+                    {
+                      label: 'Modal',
+                      value:
+                        trackingStats?.clickCounts?.find(
+                          (item) => item._id.buttonId === 'modal-open-button',
+                        )?.count || 0,
+                      color: '#10B981',
+                    },
+                    { label: 'Card', value: 35, color: '#F59E0B' },
+                  ]}
+                  size={220}
+                  className='w-full'
+                />
+              </div>
             </div>
           </div>
 
