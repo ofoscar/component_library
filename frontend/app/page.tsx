@@ -7,6 +7,7 @@ import Card from './components/Card';
 import Input from './components/Input';
 import LoginForm from './components/LoginForm';
 import BarChart from './components/charts/BarChart';
+import { Modal } from './components/ui';
 import { useAuth } from './services/auth-context';
 import { subscribeAPI } from './services/subscribeAPI';
 import { trackingAPI, TrackingStats } from './services/trackingAPI';
@@ -125,11 +126,75 @@ export const Hero = () => {
   );
 };
 
+export const OpenModalButton = ({
+  onClick,
+  onTrackingUpdate,
+}: {
+  onClick: () => void;
+  onTrackingUpdate?: () => void;
+}) => {
+  const handleClick = async () => {
+    try {
+      // Track the modal open button click
+      await trackingAPI.trackButtonClick({
+        buttonId: 'modal-open-button',
+        buttonText: 'Open Modal',
+        metadata: {
+          variant: 'outline',
+          size: 'sm',
+          page: 'home-analytics',
+          action: 'modal-click',
+        },
+      });
+
+      // Update tracking stats after successful tracking
+      if (onTrackingUpdate) {
+        onTrackingUpdate();
+      }
+    } catch (error) {
+      console.error('Failed to track modal button click:', error);
+    }
+
+    // Execute the original onClick handler
+    onClick();
+  };
+
+  return (
+    <Button variant='outline' size='sm' onClick={handleClick}>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        width='24'
+        height='24'
+        viewBox='0 0 24 24'
+      >
+        <rect width='24' height='24' fill='none' />
+        <path
+          fill='#000'
+          d='M4 4V3H3v1zm7.293 8.707a1 1 0 0 0 1.414-1.414zM5 10V4H3v6zM4 5h6V3H4zm-.707-.293l8 8l1.414-1.414l-8-8z'
+        />
+        <path
+          fill='#000'
+          d='M4 20v1H3v-1zm7.293-8.707a1 1 0 0 1 1.414 1.414zM5 14v6H3v-6zm-1 5h6v2H4zm-.707.293l8-8l1.414 1.414l-8 8z'
+        />
+        <path
+          fill='#000'
+          d='M20 4V3h1v1zm-7.293 8.707a1 1 0 0 1-1.414-1.414zM19 10V4h2v6zm1-5h-6V3h6zm.707-.293l-8 8l-1.414-1.414l8-8z'
+        />
+        <path
+          fill='#000'
+          d='M20 20v1h1v-1zm-7.293-8.707a1 1 0 0 0-1.414 1.414zM19 14v6h2v-6zm1 5h-6v2h6zm.707.293l-8-8l-1.414 1.414l8 8z'
+        />
+      </svg>
+    </Button>
+  );
+};
+
 const HomePage = () => {
   const [trackingStats, setTrackingStats] = useState<TrackingStats | null>(
     null,
   );
   const [isTrackingLoading, setIsTrackingLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch tracking statistics
   useEffect(() => {
@@ -163,14 +228,19 @@ const HomePage = () => {
       console.log('Button click tracked successfully!');
 
       // Refresh stats after tracking
-      try {
-        const updatedStats = await trackingAPI.getTrackingStats();
-        setTrackingStats(updatedStats);
-      } catch (error) {
-        console.error('Failed to refresh tracking stats:', error);
-      }
+      await refreshTrackingStats();
     } catch (error) {
       console.error('Failed to track button click:', error);
+    }
+  };
+
+  // Refresh tracking stats function
+  const refreshTrackingStats = async () => {
+    try {
+      const updatedStats = await trackingAPI.getTrackingStats();
+      setTrackingStats(updatedStats);
+    } catch (error) {
+      console.error('Failed to refresh tracking stats:', error);
     }
   };
 
@@ -186,6 +256,12 @@ const HomePage = () => {
             variant='elevated'
             padding='sm'
             className='flex flex-col items-center'
+            action={
+              <OpenModalButton
+                onClick={() => setIsModalOpen(true)}
+                onTrackingUpdate={refreshTrackingStats}
+              />
+            }
           >
             <BarChart
               data={[
@@ -195,7 +271,14 @@ const HomePage = () => {
                   color: '#3B82F6',
                 },
                 { label: 'Input', value: 10, color: '#8B5CF6' },
-                { label: 'Modal', value: 8, color: '#10B981' },
+                {
+                  label: 'Modal',
+                  value:
+                    trackingStats?.clickCounts?.find(
+                      (item) => item._id.buttonId === 'modal-open-button',
+                    )?.count || 0,
+                  color: '#10B981',
+                },
                 { label: 'Card', value: 30, color: '#F59E0B' },
               ]}
               height={200}
@@ -249,6 +332,101 @@ const HomePage = () => {
           </Card>
         </div>
       </div>
+
+      {/* Analytics Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title='Component Analytics Details'
+        size='lg'
+        footer={
+          <>
+            <Button
+              variant='outline'
+              size='md'
+              onClick={() => setIsModalOpen(false)}
+            >
+              Close
+            </Button>
+            <Button variant='primary' size='md' onClick={handleTestButtonClick}>
+              Track Another Click
+            </Button>
+          </>
+        }
+      >
+        <div className='space-y-6'>
+          <div>
+            <h3 className='text-lg font-semibold text-gray-900 mb-4'>
+              Real-time Usage Statistics
+            </h3>
+            <div className='bg-gray-50 rounded-lg p-4'>
+              <BarChart
+                data={[
+                  {
+                    label: 'Button Clicks',
+                    value: trackingStats?.totalCount || 0,
+                    color: '#3B82F6',
+                  },
+                  { label: 'Input Focus', value: 15, color: '#8B5CF6' },
+                  {
+                    label: 'Modal Opens',
+                    value:
+                      trackingStats?.clickCounts?.find(
+                        (item) => item._id.buttonId === 'modal-open-button',
+                      )?.count || 0,
+                    color: '#10B981',
+                  },
+                  { label: 'Card Views', value: 35, color: '#F59E0B' },
+                ]}
+                height={250}
+                className='w-full'
+              />
+            </div>
+          </div>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='bg-blue-50 rounded-lg p-4'>
+              <h4 className='font-semibold text-blue-900 mb-2'>
+                Total Interactions
+              </h4>
+              <p className='text-2xl font-bold text-blue-600'>
+                {isTrackingLoading ? '...' : trackingStats?.totalCount || 0}
+              </p>
+              <p className='text-sm text-blue-700'>Button clicks tracked</p>
+            </div>
+
+            <div className='bg-green-50 rounded-lg p-4'>
+              <h4 className='font-semibold text-green-900 mb-2'>
+                Components Used
+              </h4>
+              <p className='text-2xl font-bold text-green-600'>4</p>
+              <p className='text-sm text-green-700'>Different UI components</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className='font-semibold text-gray-900 mb-3'>
+              Recent Activity
+            </h4>
+            <div className='space-y-2'>
+              <div className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'>
+                <span className='text-sm text-gray-700'>
+                  Button click tracked
+                </span>
+                <span className='text-xs text-gray-500'>Just now</span>
+              </div>
+              <div className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'>
+                <span className='text-sm text-gray-700'>Modal opened</span>
+                <span className='text-xs text-gray-500'>1 min ago</span>
+              </div>
+              <div className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'>
+                <span className='text-sm text-gray-700'>Page loaded</span>
+                <span className='text-xs text-gray-500'>2 min ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

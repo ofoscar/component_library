@@ -21,7 +21,7 @@ const BarChart: React.FC<BarChartProps> = ({
   height = 300,
   className = '',
 }) => {
-  const maxValue = Math.max(...data.map((d) => d.value));
+  const maxValue = Math.max(...data.map((d) => d.value), 1); // Ensure minimum of 1 to avoid division by zero
   const colors = [
     '#3B82F6', // blue
     '#8B5CF6', // purple
@@ -31,6 +31,24 @@ const BarChart: React.FC<BarChartProps> = ({
     '#6B7280', // gray
   ];
 
+  // Calculate adaptive grid intervals based on max value
+  const getGridValues = (max: number) => {
+    if (max <= 5) return [0, 1, 2, 3, 4, 5];
+    if (max <= 10) return [0, 2, 4, 6, 8, 10];
+    if (max <= 25) return [0, 5, 10, 15, 20, 25];
+    if (max <= 50) return [0, 10, 20, 30, 40, 50];
+    if (max <= 100) return [0, 20, 40, 60, 80, 100];
+
+    // For larger values, create 5 intervals
+    const interval = Math.ceil(max / 5);
+    const roundedMax = interval * 5;
+    return Array.from({ length: 6 }, (_, i) => i * interval);
+  };
+
+  const gridValues = getGridValues(maxValue);
+  const actualMaxValue = Math.max(maxValue, gridValues[gridValues.length - 1]);
+  const chartHeight = height - 60; // Reserve space for labels
+
   return (
     <div
       className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}
@@ -39,51 +57,98 @@ const BarChart: React.FC<BarChartProps> = ({
         <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
       )}
 
-      <div
-        className='relative flex items-end justify-between gap-2'
-        style={{ height: `${height}px` }}
-      >
-        {data.map((item, index) => {
-          const barHeight =
-            maxValue > 0 ? (item.value / maxValue) * (height - 60) : 0;
-          const barColor = item.color || colors[index % colors.length];
+      <div className='flex gap-4'>
+        {/* Y-axis labels and grid */}
+        <div
+          className='flex flex-col justify-between text-xs text-gray-500'
+          style={{ height: `${height}px`, paddingBottom: '40px' }}
+        >
+          {gridValues
+            .slice()
+            .reverse()
+            .map((value, index) => (
+              <div key={value} className='flex items-center'>
+                <span className='w-8 text-right pr-2 font-mono'>{value}</span>
+              </div>
+            ))}
+        </div>
 
-          return (
-            <div
-              key={item.label}
-              className='flex flex-col items-center justify-end flex-1 group'
-            >
-              {/* Bar */}
-              <div
-                className='w-full rounded-t-md transition-all duration-300 hover:opacity-80 relative'
-                style={{
-                  height: `${barHeight}px`,
-                  backgroundColor: barColor,
-                  minHeight: item.value > 0 ? '4px' : '0px',
-                }}
-              >
-                {/* Value tooltip */}
-                <div className='absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap'>
-                  {item.value}
+        {/* Chart area with grid and bars */}
+        <div className='flex-1 relative'>
+          {/* Grid lines */}
+          <div
+            className='absolute inset-0'
+            style={{ height: `${chartHeight}px`, top: 0 }}
+          >
+            {gridValues
+              .slice()
+              .reverse()
+              .map((value, index) => {
+                const y = (index / (gridValues.length - 1)) * chartHeight;
+                return (
+                  <div
+                    key={value}
+                    className='absolute w-full border-t border-gray-200'
+                    style={{ top: `${y}px` }}
+                  />
+                );
+              })}
+          </div>
+
+          {/* Bars */}
+          <div
+            className='relative flex items-end justify-between gap-2'
+            style={{ height: `${chartHeight}px` }}
+          >
+            {data.map((item, index) => {
+              const barHeight =
+                actualMaxValue > 0
+                  ? (item.value / actualMaxValue) * chartHeight
+                  : 0;
+              const barColor = item.color || colors[index % colors.length];
+
+              return (
+                <div
+                  key={item.label}
+                  className='flex flex-col items-center justify-end flex-1 group relative'
+                >
+                  {/* Value display above bar */}
+                  {item.value > 0 && (
+                    <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap'>
+                      {item.value}
+                    </div>
+                  )}
+
+                  {/* Bar */}
+                  <div
+                    className='w-full rounded-t-md transition-all duration-300 hover:opacity-80 relative'
+                    style={{
+                      height: `${barHeight}px`,
+                      backgroundColor: barColor,
+                      minHeight: item.value > 0 ? '2px' : '0px',
+                    }}
+                  >
+                    {/* Hover tooltip */}
+                    <div className='absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10'>
+                      {item.label}: {item.value}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              );
+            })}
+          </div>
 
-              {/* Label */}
-              <div className='mt-2 text-sm text-gray-600 text-center w-full'>
-                <span className='break-words'>{item.label}</span>
+          {/* X-axis labels */}
+          <div className='flex justify-between gap-2 mt-2'>
+            {data.map((item) => (
+              <div key={item.label} className='flex-1 text-center'>
+                <span className='text-sm text-gray-600 break-words'>
+                  {item.label}
+                </span>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Y-axis labels */}
-      <div className='absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-500 -ml-8'>
-        <span>{maxValue}</span>
-        <span>{Math.round(maxValue * 0.75)}</span>
-        <span>{Math.round(maxValue * 0.5)}</span>
-        <span>{Math.round(maxValue * 0.25)}</span>
-        <span>0</span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

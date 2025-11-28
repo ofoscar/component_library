@@ -6,6 +6,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'elevated' | 'outlined';
   padding?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
+  action?: React.ReactNode;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
@@ -17,6 +18,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       variant = 'default',
       padding = 'md',
       fullWidth = false,
+      action,
       className = '',
       ...props
     },
@@ -41,11 +43,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         className={`${baseStyles} ${variants[variant]} ${paddings[padding]} ${
           fullWidth ? 'w-full' : ''
-        } ${className}`}
+        } ${className} relative`}
         {...props}
       >
+        {action && <div className='absolute top-4 right-4 z-10'>{action}</div>}
         {(title || subtitle) && (
-          <div className='mb-4'>
+          <div className='mb-4 w-full'>
             {title && (
               <h3 className='text-lg font-semibold text-gray-900 mb-1'>
                 {title}
