@@ -126,9 +126,41 @@ export const Hero = () => {
   );
 };
 
-export const OpenModalButton = ({ onClick }: { onClick: () => void }) => {
+export const OpenModalButton = ({
+  onClick,
+  onTrackingUpdate,
+}: {
+  onClick: () => void;
+  onTrackingUpdate?: () => void;
+}) => {
+  const handleClick = async () => {
+    try {
+      // Track the modal open button click
+      await trackingAPI.trackButtonClick({
+        buttonId: 'modal-open-button',
+        buttonText: 'Open Modal',
+        metadata: {
+          variant: 'outline',
+          size: 'sm',
+          page: 'home-analytics',
+          action: 'modal-click',
+        },
+      });
+
+      // Update tracking stats after successful tracking
+      if (onTrackingUpdate) {
+        onTrackingUpdate();
+      }
+    } catch (error) {
+      console.error('Failed to track modal button click:', error);
+    }
+
+    // Execute the original onClick handler
+    onClick();
+  };
+
   return (
-    <Button variant='outline' size='sm' onClick={onClick}>
+    <Button variant='outline' size='sm' onClick={handleClick}>
       <svg
         xmlns='http://www.w3.org/2000/svg'
         width='24'
@@ -196,14 +228,19 @@ const HomePage = () => {
       console.log('Button click tracked successfully!');
 
       // Refresh stats after tracking
-      try {
-        const updatedStats = await trackingAPI.getTrackingStats();
-        setTrackingStats(updatedStats);
-      } catch (error) {
-        console.error('Failed to refresh tracking stats:', error);
-      }
+      await refreshTrackingStats();
     } catch (error) {
       console.error('Failed to track button click:', error);
+    }
+  };
+
+  // Refresh tracking stats function
+  const refreshTrackingStats = async () => {
+    try {
+      const updatedStats = await trackingAPI.getTrackingStats();
+      setTrackingStats(updatedStats);
+    } catch (error) {
+      console.error('Failed to refresh tracking stats:', error);
     }
   };
 
@@ -219,7 +256,12 @@ const HomePage = () => {
             variant='elevated'
             padding='sm'
             className='flex flex-col items-center'
-            action={<OpenModalButton onClick={() => setIsModalOpen(true)} />}
+            action={
+              <OpenModalButton
+                onClick={() => setIsModalOpen(true)}
+                onTrackingUpdate={refreshTrackingStats}
+              />
+            }
           >
             <BarChart
               data={[
@@ -229,7 +271,14 @@ const HomePage = () => {
                   color: '#3B82F6',
                 },
                 { label: 'Input', value: 10, color: '#8B5CF6' },
-                { label: 'Modal', value: 8, color: '#10B981' },
+                {
+                  label: 'Modal',
+                  value:
+                    trackingStats?.clickCounts?.find(
+                      (item) => item._id.buttonId === 'modal-open-button',
+                    )?.count || 0,
+                  color: '#10B981',
+                },
                 { label: 'Card', value: 30, color: '#F59E0B' },
               ]}
               height={200}
@@ -319,7 +368,14 @@ const HomePage = () => {
                     color: '#3B82F6',
                   },
                   { label: 'Input Focus', value: 15, color: '#8B5CF6' },
-                  { label: 'Modal Opens', value: 8, color: '#10B981' },
+                  {
+                    label: 'Modal Opens',
+                    value:
+                      trackingStats?.clickCounts?.find(
+                        (item) => item._id.buttonId === 'modal-open-button',
+                      )?.count || 0,
+                    color: '#10B981',
+                  },
                   { label: 'Card Views', value: 35, color: '#F59E0B' },
                 ]}
                 height={250}
