@@ -1,0 +1,14 @@
+# Railway configuration file
+[build]
+  builder = "nixpacks"
+  buildCommand = "npm run build:frontend"
+
+[deploy]
+  startCommand = "npm run start:frontend"
+  healthcheckPath = "/"
+  healthcheckTimeout = 100
+  restartPolicyType = "on_failure"
+  restartPolicyMaxRetries = 10
+
+[env]
+  NODE_ENV = "production"
