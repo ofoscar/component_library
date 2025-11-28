@@ -18,10 +18,31 @@ const port = process.env.PORT || 5100;
 // Middleware
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === 'production'
-        ? process.env.FRONTEND_URL
-        : ['http://localhost:3000', 'http://localhost:3001'],
+    origin: (origin, callback) => {
+      if (process.env.NODE_ENV === 'production') {
+        const allowedOrigins = [
+          'https://frontend-production-02bd.up.railway.app',
+          process.env.FRONTEND_URL?.replace(/\/$/, ''), // Remove trailing slash if exists
+        ].filter(Boolean);
+
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      } else {
+        // Development - allow localhost origins
+        const allowedOrigins = [
+          'http://localhost:3000',
+          'http://localhost:3001',
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    },
     credentials: true,
   }),
 );
