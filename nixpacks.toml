@@ -1,0 +1,11 @@
+[providers.node]
+version = "20.18.0"
+
+[phases.build]
+cmds = ["npm run build:frontend"]
+
+[phases.start]
+cmd = "npm run start:frontend"
+
+[variables]
+NODE_ENV = "production"
