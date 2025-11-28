@@ -1,15 +1,10 @@
-# Railway configuration file
 [build]
   builder = "nixpacks"
-  buildCommand = "npm run build:frontend"
+  buildCommand = "./railway-build.sh"
 
 [deploy]
-  startCommand = "npm run start:frontend"
+  startCommand = "./railway-start.sh"
   healthcheckPath = "/"
-  healthcheckTimeout = 100
-  restartPolicyType = "on_failure"
-  restartPolicyMaxRetries = 10
 
 [env]
   NODE_ENV = "production"
-  NODE_VERSION = "20"
