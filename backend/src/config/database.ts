@@ -5,11 +5,26 @@ const connectDB = async (): Promise<void> => {
     const mongoURI =
       process.env.MONGODB_URI || 'mongodb://localhost:27017/components_library';
 
+    console.log('Attempting to connect to MongoDB...');
+    console.log(
+      'MongoDB URI:',
+      mongoURI.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@'),
+    ); // Hide credentials in logs
+
+    if (!process.env.MONGODB_URI) {
+      console.warn(
+        'Warning: MONGODB_URI environment variable not set. Using localhost fallback.',
+      );
+    }
+
     await mongoose.connect(mongoURI);
 
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
+    console.error(
+      'Make sure MONGODB_URI environment variable is set with a valid MongoDB connection string',
+    );
     process.exit(1);
   }
 };

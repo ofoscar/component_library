@@ -25,7 +25,7 @@ app.use(
 
       if (process.env.NODE_ENV === 'production') {
         const allowedOrigins = [
-          'https://frontend-production-02bd.up.railway.app',
+          'http://localhost:3000',
           process.env.FRONTEND_URL,
         ].filter(Boolean);
 
