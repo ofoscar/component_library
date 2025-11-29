@@ -24,37 +24,71 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref,
   ) => {
-    const baseStyles = 'rounded-lg bg-[#141414] border transition-all';
+    const baseStyles = 'border transition-all';
 
     const variants = {
-      default: 'border-[#464646] shadow-sm',
-      elevated: 'border-[#464646] shadow-lg hover:shadow-xl',
-      outlined: 'border-[#464646] shadow-none hover:shadow-sm',
+      default: 'shadow-sm',
+      elevated: 'shadow-lg hover:shadow-xl',
+      outlined: 'shadow-none hover:shadow-sm',
     };
 
-    const paddings = {
-      sm: 'p-4',
-      md: 'p-6',
-      lg: 'p-8',
+    const paddingValues = {
+      sm: 'var(--spacing-md)',
+      md: 'var(--spacing-lg)',
+      lg: 'var(--spacing-xl)',
     };
 
     return (
       <div
         ref={ref}
-        className={`${baseStyles} ${variants[variant]} ${paddings[padding]} ${
+        className={`${baseStyles} ${variants[variant]} ${
           fullWidth ? 'w-full' : ''
         } ${className} relative`}
+        style={{
+          borderRadius: 'var(--radius-lg)',
+          background: 'var(--colors-cardBg)',
+          borderColor: 'var(--colors-cardBorder)',
+          padding: paddingValues[padding],
+          boxShadow:
+            variant === 'elevated'
+              ? 'var(--elevation-card)'
+              : variant === 'default'
+              ? '0 1px 3px rgba(0,0,0,0.3)'
+              : 'none',
+          color: 'var(--colors-textPrimary)',
+          ...props.style,
+        }}
         {...props}
       >
-        {action && <div className='absolute top-4 right-4 z-10'>{action}</div>}
+        {action && (
+          <div
+            className='absolute z-10'
+            style={{ top: 'var(--spacing-md)', right: 'var(--spacing-md)' }}
+          >
+            {action}
+          </div>
+        )}
         {(title || subtitle) && (
-          <div className='mb-4 w-full'>
+          <div className='w-full' style={{ marginBottom: 'var(--spacing-md)' }}>
             {title && (
-              <h3 className='text-lg font-semibold text-[#FFFFFF] mb-1'>
+              <h3
+                className='text-lg font-semibold'
+                style={{
+                  color: 'var(--colors-textPrimary)',
+                  marginBottom: 'var(--spacing-xs)',
+                }}
+              >
                 {title}
               </h3>
             )}
-            {subtitle && <p className='text-sm text-[#FFFFFF]'>{subtitle}</p>}
+            {subtitle && (
+              <p
+                className='text-sm'
+                style={{ color: 'var(--colors-textSecondary)' }}
+              >
+                {subtitle}
+              </p>
+            )}
           </div>
         )}
         {children}

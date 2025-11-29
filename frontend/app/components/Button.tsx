@@ -22,21 +22,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const baseStyles =
-      'rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+      'font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-      primary:
-        'bg-[#D3D3D3] text-[#0B090A] hover:bg-blue-700 focus:ring-blue-500',
-      secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
-      outline:
-        'bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
-      danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+      primary: 'text-[#0B090A] hover:opacity-90 focus:ring-blue-500',
+      secondary: 'hover:opacity-90 focus:ring-gray-500',
+      outline: 'bg-transparent border-2 hover:opacity-80 focus:ring-blue-500',
+      danger: 'text-white hover:opacity-90 focus:ring-red-500',
     };
 
     const sizes = {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2 text-base',
-      lg: 'px-6 py-3 text-lg',
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
     };
 
     return (
@@ -46,6 +44,34 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${
           fullWidth ? 'w-full' : ''
         } ${className}`}
+        style={{
+          borderRadius:
+            variant === 'primary' ? 'var(--radius-pill)' : 'var(--radius-md)',
+          padding:
+            size === 'sm'
+              ? 'var(--spacing-sm) var(--spacing-md)'
+              : size === 'lg'
+              ? 'var(--spacing-md) var(--spacing-xl)'
+              : 'var(--spacing-sm) var(--spacing-lg)',
+          background:
+            variant === 'primary'
+              ? '#FFFFFF'
+              : variant === 'secondary'
+              ? 'var(--colors-cardBg)'
+              : variant === 'danger'
+              ? 'var(--colors-accent-red-500)'
+              : 'transparent',
+          color:
+            variant === 'primary'
+              ? 'var(--colors-surface)'
+              : 'var(--colors-textPrimary)',
+          borderColor:
+            variant === 'outline'
+              ? 'var(--colors-accent-blue-500)'
+              : 'transparent',
+          boxShadow: variant === 'primary' ? 'var(--elevation-card)' : 'none',
+          ...props.style,
+        }}
         {...props}
       >
         {isLoading ? (
