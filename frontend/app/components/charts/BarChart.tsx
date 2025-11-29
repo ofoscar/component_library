@@ -23,7 +23,7 @@ const BarChart: React.FC<BarChartProps> = ({
 }) => {
   const maxValue = Math.max(...data.map((d) => d.value), 1); // Ensure minimum of 1 to avoid division by zero
   const colors = [
-    '#3B82F6', // blue
+    '#187DBA', // blue
     '#8B5CF6', // purple
     '#10B981', // green
     '#F59E0B', // yellow
@@ -112,7 +112,7 @@ const BarChart: React.FC<BarChartProps> = ({
                 >
                   {/* Value display above bar */}
                   {item.value > 0 && (
-                    <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap'>
+                    <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-gray-200 whitespace-nowrap'>
                       {item.value}
                     </div>
                   )}

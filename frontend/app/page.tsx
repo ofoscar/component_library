@@ -4,16 +4,16 @@ import React, { useEffect, useState } from 'react';
 import AnimatedBackground from './components/AnimatedBackground';
 import AppBar from './components/AppBar';
 import Button from './components/Button';
-import Card from './components/Card';
+import Card from './components/card';
+import BarChart from './components/charts/barchart';
+import PieChart from './components/charts/piechart';
 import Footer from './components/Footer';
-import Input from './components/Input';
-import LoginForm from './components/LoginForm';
-import BarChart from './components/charts/BarChart';
-import PieChart from './components/charts/PieChart';
+import Input from './components/input';
+import LoginForm from './components/loginform';
 import { Modal } from './components/ui';
 import { useAuth } from './services/auth-context';
-import { subscribeAPI } from './services/subscribeAPI';
-import { trackingAPI, TrackingStats } from './services/trackingAPI';
+import { subscribeAPI } from './services/subscribeapi';
+import { trackingAPI, TrackingStats } from './services/trackingapi';
 
 export const Hero = () => {
   const [email, setEmail] = React.useState('');
