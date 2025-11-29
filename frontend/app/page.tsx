@@ -287,18 +287,18 @@ const HomePage = () => {
                     {
                       label: 'Button',
                       value: trackingStats?.totalCount || 0,
-                      color: '#3B82F6',
+                      color: '#187DBA',
                     },
-                    { label: 'Input', value: 15, color: '#8B5CF6' },
+                    { label: 'Input', value: 15, color: '#BA181B' },
                     {
                       label: 'Modal',
                       value:
                         trackingStats?.clickCounts?.find(
                           (item) => item._id.buttonId === 'modal-open-button',
                         )?.count || 0,
-                      color: '#10B981',
+                      color: '#C8C546',
                     },
-                    { label: 'Card', value: 25, color: '#F59E0B' },
+                    { label: 'Card', value: 25, color: '#46C86A' },
                   ]}
                   height={200}
                   className='w-full'
@@ -336,6 +336,8 @@ const HomePage = () => {
             title='Features'
             subtitle='Everything you need'
             variant='outlined'
+            className='w-full'
+            padding='sm'
           >
             <div className='w-full'>
               <PieChart
