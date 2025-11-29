@@ -50,9 +50,7 @@ const BarChart: React.FC<BarChartProps> = ({
   const chartHeight = height - 60; // Reserve space for labels
 
   return (
-    <div
-      className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}
-    >
+    <div className={`bg-[#292828]/40 rounded-lg p-4 ${className}`}>
       {title && (
         <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
       )}
