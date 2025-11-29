@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import AppBar from '../../AppBar';
 import Button from '../../Button';
 import Card from '../../Card';
+import Footer from '../../Footer';
 import Input from '../../Input';
 
 export default function CardShowcase() {
@@ -68,14 +70,31 @@ export default function CardShowcase() {
   };
 
   return (
-    <div className='min-h-screen bg-[#0A0A0A] p-8'>
-      <div className='max-w-7xl mx-auto'>
-        <div className='mb-12'>
-          <h1 className='text-4xl font-bold text-white mb-4'>
-            Card Component Showcase
-          </h1>
+    <div className='flex flex-col zmin-h-screen bg-[#0A0A0A]'>
+      <AppBar />
+      <div className='max-w-7xl mx-auto p-6 lg:p-8 w-full'>
+        <div className='mb-8'>
+          <h1 className='text-4xl font-bold text-white mb-4'>Card</h1>
           <p className='text-gray-400 text-lg'>
-            Demonstrating Card with form content and action buttons in footer
+            Displays a card with header, body content, and optional action
+            buttons
+          </p>
+        </div>
+
+        <div className='mb-12'>
+          <h2 className='text-3xl font-bold text-gray-300 mb-4'>Usage</h2>
+          <div className='bg-[#161A1D] rounded-lg p-6'>
+            <code className='text-sm text-gray-300'>
+              import &#123; Card &#125; from
+              &quot;./app/components/Card.tsx&quot;
+            </code>
+          </div>
+        </div>
+
+        <div className='mb-8'>
+          <h2 className='text-3xl font-bold text-gray-300 mb-4'>Examples</h2>
+          <p className='text-gray-400 text-lg mb-6'>
+            Demonstrating Card with form content and action buttons
           </p>
         </div>
 
@@ -389,6 +408,7 @@ export default function CardShowcase() {
           </Card>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

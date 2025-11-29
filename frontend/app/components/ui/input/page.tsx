@@ -2,6 +2,7 @@
 
 import AppBar from '../../AppBar';
 import Card from '../../Card';
+import Footer from '../../Footer';
 import Input from '../../Input';
 
 const InputPage = () => {
@@ -67,6 +68,7 @@ const InputPage = () => {
           </Card>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
