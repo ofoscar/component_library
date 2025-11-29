@@ -7,9 +7,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   // Railway-specific configurations
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
+  serverExternalPackages: [],
   // Handle Railway's environment
   env: {
     RAILWAY_ENVIRONMENT: process.env.RAILWAY_ENVIRONMENT || 'development',

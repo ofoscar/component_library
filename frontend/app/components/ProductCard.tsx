@@ -1,4 +1,4 @@
-import AddToCart from './AddToCart';
+import AddToCart from './addtocart';
 import style from './ProductCard.module.css';
 const ProductCard = () => {
   return (
