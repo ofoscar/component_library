@@ -112,7 +112,7 @@ const Modal: React.FC<ModalProps> = ({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className='flex-shrink-0 transition-colors duration-200 rounded-full'
+                className='flex-shrink-0 transition-colors duration-200 rounded-full cursor-pointer hover:bg-gray-700'
                 style={{
                   padding: 'var(--spacing-xs)',
                   color: 'var(--colors-muted)',

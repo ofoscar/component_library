@@ -142,7 +142,7 @@ const AppBar = () => {
         </div>
       </div>
 
-      <header className='bg-[#0B090A] text-white shadow-md relative z-50'>
+      <header className='bg-[#0B090A] text-white shadow-md sticky top-0 z-50'>
         <div className='px-4 py-4 flex items-center justify-between'>
           <div className='flex flex-row gap-2 items-center'>
             <button

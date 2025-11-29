@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppBar from './components/AppBar';
 import Button from './components/Button';
 import { ButtonsCard } from './components/ButtonsCard';
@@ -9,135 +9,11 @@ import BarChart from './components/charts/BarChart';
 import PieChart from './components/charts/PieChart';
 import RadarChart from './components/charts/RadarChart';
 import Footer from './components/Footer';
-import Input from './components/Input';
+import Hero from './components/Hero';
+import { InputsCard } from './components/InputsCard';
 import { ModalsCard } from './components/ModalsCard';
 import { Modal } from './components/ui';
-import { subscribeAPI } from './services/subscribeAPI';
 import { trackingAPI, TrackingStats } from './services/trackingAPI';
-
-export const Hero = () => {
-  const [email, setEmail] = React.useState('');
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [message, setMessage] = React.useState('');
-  const [isSuccess, setIsSuccess] = React.useState(false);
-  const [subscriberCount, setSubscriberCount] = React.useState<number | null>(
-    null,
-  );
-  const [isLoadingCount, setIsLoadingCount] = React.useState(true);
-
-  // Fetch subscriber count on component mount
-  useEffect(() => {
-    const fetchSubscriberCount = async () => {
-      try {
-        const { count } = await subscribeAPI.getSubscriberCount();
-        setSubscriberCount(count);
-      } catch (error) {
-        console.error('Failed to fetch subscriber count:', error);
-        setSubscriberCount(0);
-      } finally {
-        setIsLoadingCount(false);
-      }
-    };
-
-    fetchSubscriberCount();
-  }, []);
-
-  const handleSubscribe = async () => {
-    if (!email.trim()) {
-      setMessage('Please enter your email address');
-      setIsSuccess(false);
-      return;
-    }
-
-    setIsSubmitting(true);
-    setMessage('');
-
-    try {
-      await subscribeAPI.subscribe({ email });
-      setMessage('Successfully subscribed! Thank you for joining us.');
-      setIsSuccess(true);
-      setEmail('');
-
-      // Refresh subscriber count after successful subscription
-      try {
-        const { count } = await subscribeAPI.getSubscriberCount();
-        setSubscriberCount(count);
-      } catch (error) {
-        console.error('Failed to refresh subscriber count:', error);
-      }
-    } catch (error: any) {
-      setMessage(error.message || 'Failed to subscribe. Please try again.');
-      setIsSuccess(false);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <div className='w-full h-96 bg-[#660708]'>
-      {/* Subscription Form */}
-      <div className='flex flex-col items-center justify-center h-96 p-4 relative w-full'>
-        <div className='flex flex-col gap-4 w-full max-w-md'>
-          <h1 className='text-2xl font-bold text-center text-white'>
-            Receive more information about this component library
-          </h1>
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder='Email address'
-            fullWidth
-            disabled={isSubmitting}
-          />
-          <Button
-            onClick={handleSubscribe}
-            variant='primary'
-            size='lg'
-            fullWidth
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-          </Button>
-          {message && (
-            <div
-              className={`text-sm text-center p-2 rounded backdrop-blur-sm ${
-                isSuccess
-                  ? 'text-green-100 bg-green-900/30 border border-green-500/50'
-                  : 'text-red-100 bg-red-900/30 border border-red-500/50'
-              }`}
-            >
-              {message}
-            </div>
-          )}
-        </div>
-        <div className='absolute bottom-0 right-0 h-full flex items-end p-4'>
-          <div className='bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2'>
-            {isLoadingCount ? (
-              <span className='text-white text-sm'>...</span>
-            ) : (
-              <>
-                <span className='text-white text-lg font-bold'>
-                  {subscriberCount?.toLocaleString() || '0'}
-                </span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='24'
-                  height='24'
-                  viewBox='0 0 24 24'
-                >
-                  <rect width='24' height='24' fill='none' />
-                  <path
-                    fill='#D7D7D7'
-                    d='M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4'
-                  />
-                </svg>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export const OpenModalButton = ({
   onClick,
@@ -268,6 +144,7 @@ const HomePage = () => {
       <Hero />
       <div className='container mx-auto px-4 py-8'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          <InputsCard />
           <Card
             title='Component Analytics'
             subtitle='Track user interactions'
@@ -395,46 +272,6 @@ const HomePage = () => {
           </Card>
           <ButtonsCard />
 
-          <Card
-            title='Inputs'
-            subtitle='Form input components'
-            variant='outlined'
-            padding='md'
-          >
-            <div className='flex flex-col gap-3'>
-              <Input
-                placeholder='Email verified'
-                success='Email is valid and available!'
-                value='user@example.com'
-                onChange={() => {}}
-              />
-              <Input placeholder='Disabled input' disabled />
-              <Input
-                placeholder='With value'
-                value='Sample text'
-                onChange={() => {}}
-              />
-              <Input
-                placeholder='Search...'
-                startIcon={
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    width='24'
-                    height='24'
-                    viewBox='0 0 24 24'
-                  >
-                    <rect width='24' height='24' fill='none' />
-                    <path
-                      fill='#d7d7d7'
-                      d='m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14'
-                    />
-                  </svg>
-                }
-                fullWidth
-              />
-            </div>
-          </Card>
-
           <ModalsCard onOpenModal={() => setIsModalOpen(true)} />
           <Card
             title='Beautiful Landscape'
@@ -482,7 +319,7 @@ const HomePage = () => {
             <h3 className='text-lg font-semibold text-gray-900 mb-4'>
               Real-time Usage Statistics
             </h3>
-            <div className='bg-gray-50 rounded-lg p-4'>
+            <div className='rounded-lg p-4'>
               <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
                 <BarChart
                   data={[
