@@ -222,7 +222,7 @@ const AppBar = () => {
               {/* Auth Group */}
               <div className='relative group'>
                 <button className='text-sm font-medium text-gray-300 hover:text-white transition-colors'>
-                  Auth
+                  Authorization
                 </button>
                 <div className='absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] rounded-md shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
                   <Link
@@ -236,12 +236,6 @@ const AppBar = () => {
                     className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
                   >
                     Register
-                  </Link>
-                  <Link
-                    href='/users'
-                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
-                  >
-                    Users
                   </Link>
                 </div>
               </div>

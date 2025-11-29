@@ -6,6 +6,7 @@ import Button from './components/Button';
 import Card from './components/Card';
 import BarChart from './components/charts/BarChart';
 import PieChart from './components/charts/PieChart';
+import RadarChart from './components/charts/RadarChart';
 import Footer from './components/Footer';
 import Input from './components/Input';
 import { Modal } from './components/ui';
@@ -361,16 +362,116 @@ const HomePage = () => {
             </div>
           </Card>
           <Card
-            title='Support'
-            subtitle='We are here to help'
-            variant='default'
+            title='Radar Chart'
+            subtitle='Performance radar view'
+            variant='elevated'
+            padding='sm'
           >
-            <p className='text-gray-700 mb-4'>
-              Need help? Our support team is available 24/7 to assist you.
-            </p>
-            <Button variant='outline' size='sm' fullWidth>
-              Contact Support
-            </Button>
+            <div className='flex justify-center'>
+              <RadarChart
+                data={[
+                  {
+                    label: 'Button',
+                    value: trackingStats?.totalCount || 0,
+                  },
+                  { label: 'Input', value: 15 },
+                  {
+                    label: 'Modal',
+                    value:
+                      trackingStats?.clickCounts?.find(
+                        (item) => item._id.buttonId === 'modal-open-button',
+                      )?.count || 0,
+                  },
+                  { label: 'Card', value: 25 },
+                ]}
+                size={280}
+                className='w-full'
+              />
+            </div>
+          </Card>
+          <Card
+            title='Buttons'
+            subtitle='Interactive button components'
+            variant='elevated'
+            padding='md'
+          >
+            <div className='flex flex-col gap-3'>
+              <div className='flex flex-wrap gap-2'>
+                <Button variant='primary' size='sm'>
+                  Primary
+                </Button>
+                <Button variant='secondary' size='sm'>
+                  Secondary
+                </Button>
+                <Button variant='outline' size='sm'>
+                  Outline
+                </Button>
+                <Button variant='danger' size='sm'>
+                  Danger
+                </Button>
+              </div>
+              <div className='flex flex-wrap gap-2'>
+                <Button variant='primary' size='md'>
+                  Medium
+                </Button>
+                <Button variant='secondary' size='md'>
+                  Medium
+                </Button>
+              </div>
+              <div className='flex gap-2'>
+                <Button variant='primary' size='lg' fullWidth>
+                  Large Full Width
+                </Button>
+              </div>
+            </div>
+          </Card>
+
+          <Card
+            title='Inputs'
+            subtitle='Form input components'
+            variant='outlined'
+            padding='md'
+          >
+            <div className='flex flex-col gap-3'>
+              <Input placeholder='Default input' />
+              <Input placeholder='Disabled input' disabled />
+              <Input
+                placeholder='With value'
+                value='Sample text'
+                onChange={() => {}}
+              />
+              <Input placeholder='Full width input' fullWidth />
+            </div>
+          </Card>
+
+          <Card
+            title='Modals'
+            subtitle='Dialog and overlay components'
+            variant='default'
+            padding='md'
+          >
+            <div className='space-y-4'>
+              <p className='text-gray-700 text-sm'>
+                Modals provide focused interaction surfaces for important
+                content and actions.
+              </p>
+              <div className='flex flex-col gap-2'>
+                <Button
+                  variant='primary'
+                  size='sm'
+                  fullWidth
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Open Analytics Modal
+                </Button>
+                <Button variant='outline' size='sm' fullWidth>
+                  View More Examples
+                </Button>
+              </div>
+              <div className='text-xs text-gray-500 bg-gray-50 p-2 rounded'>
+                💡 Click the expand button on cards to see modals in action
+              </div>
+            </div>
           </Card>
         </div>
       </div>

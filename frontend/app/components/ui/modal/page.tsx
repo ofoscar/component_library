@@ -4,6 +4,7 @@ import { useState } from 'react';
 import AppBar from '../../AppBar';
 import Button from '../../Button';
 import Card from '../../Card';
+import Footer from '../../Footer';
 import Modal from '../Modal';
 
 const ModalPage = () => {
@@ -13,9 +14,9 @@ const ModalPage = () => {
   const [isFooterModalOpen, setIsFooterModalOpen] = useState(false);
 
   return (
-    <div className='min-h-screen'>
+    <div className='min-h-screen flex flex-col'>
       <AppBar />
-      <div className='container flex flex-col gap-8 px-4 py-8'>
+      <div className='container flex flex-col gap-8 px-4 py-8 flex-1'>
         <div>
           <h1 className='text-4xl font-bold text-gray-300 mb-2'>Modal</h1>
           <p className='text-lg text-gray-400'>
@@ -197,6 +198,7 @@ const ModalPage = () => {
           </div>
         </div>
       </Modal>
+      <Footer />
     </div>
   );
 };
