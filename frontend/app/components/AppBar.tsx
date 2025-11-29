@@ -152,10 +152,11 @@ const AppBar = () => {
             >
               <MenuButton />
             </button>
-            <div className='flex flex-row gap-2 items-center cursor-pointer hover:opacity-80 transition-opacity'>
-              <Link href='/' aria-label='Go to home'>
-                <LogoIcon />
-              </Link>
+            <div
+              className='flex flex-row gap-2 items-center cursor-pointer hover:opacity-80 transition-opacity'
+              onClick={() => router.push('/')}
+            >
+              <LogoIcon />
               <h1 className='font-bold text-lg hidden md:flex'>CL</h1>
             </div>
           </div>

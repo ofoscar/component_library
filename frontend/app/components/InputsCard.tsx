@@ -1,7 +1,12 @@
+'use client';
+
+import { useState } from 'react';
 import Card from './Card';
 import Input from './Input';
 
 export const InputsCard = () => {
+  const [controlledValue, setControlledValue] = useState('');
+
   return (
     <Card
       title='Inputs'
@@ -10,6 +15,12 @@ export const InputsCard = () => {
       padding='md'
     >
       <div className='flex flex-col gap-3'>
+        <Input
+          placeholder='Controlled input'
+          value={controlledValue}
+          onChange={(e) => setControlledValue(e.target.value)}
+          label='Controlled'
+        />
         <Input
           placeholder='Email verified'
           success='Email is valid and available!'

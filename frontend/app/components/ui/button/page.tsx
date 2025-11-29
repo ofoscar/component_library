@@ -9,7 +9,7 @@ const ButtonPage = () => {
   return (
     <div className='min-h-screen flex flex-col'>
       <AppBar />
-      <div className='container flex flex-col gap-8 px-4 py-8 flex-1'>
+      <div className='container self-center flex flex-col gap-8 px-4 py-8 flex-1'>
         <div>
           <h1 className='text-4xl font-bold text-gray-300 mb-2'>Button</h1>
           <p className='text-lg text-gray-400'>
@@ -27,7 +27,7 @@ const ButtonPage = () => {
           </div>
         </div>
 
-        <div className='mb-12'>
+        <div className='mb-12 self-center'>
           <Card variant='elevated' padding='lg' className='max-w-2xl'>
             <div className='flex flex-col gap-4 items-center'>
               <div className='flex flex-wrap gap-3 justify-center'>

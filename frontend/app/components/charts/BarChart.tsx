@@ -52,7 +52,7 @@ const BarChart: React.FC<BarChartProps> = ({
   return (
     <div className={`bg-[#292828]/40 rounded-lg px-2 py-4 ${className}`}>
       {title && (
-        <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
+        <h3 className='text-lg font-semibold text-gray-300 mb-4'>{title}</h3>
       )}
 
       <div className='flex'>

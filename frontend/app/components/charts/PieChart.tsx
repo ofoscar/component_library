@@ -120,11 +120,11 @@ const PieChart: React.FC<PieChartProps> = ({
   return (
     <div className={`bg-[#292828]/40 rounded-lg px-3 py-4 ${className}`}>
       {title && (
-        <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
+        <h3 className='text-lg font-semibold text-gray-300 mb-4'>{title}</h3>
       )}
 
       <div
-        className={`flex flex-col lg:flex-row ${
+        className={`flex flex-col ${
           showLegend ? 'gap-6 lg:items-center' : 'justify-center items-center'
         }`}
       >
@@ -220,7 +220,7 @@ const PieChart: React.FC<PieChartProps> = ({
 
         {/* Legend */}
         {showLegend && (
-          <div className='grid grid-cols-2 lg:flex lg:flex-col gap-3 mt-4 lg:mt-0 w-full lg:w-auto'>
+          <div className='grid grid-cols-2 lg:grid-cols-3 gap-3 mt-4 lg:mt-0 w-full '>
             {slices.map((slice) => (
               <div key={slice.label} className='flex items-center gap-3'>
                 <div
@@ -243,11 +243,11 @@ const PieChart: React.FC<PieChartProps> = ({
 
       {/* Summary stats */}
       <div className='mt-4 pt-4 border-t border-gray-100'>
-        <div className='flex justify-between items-center text-sm'>
+        <div className='flex flex-row gap-2 justify-between items-center text-sm'>
           <span className='text-gray-300'>
             {slices.length} component{slices.length !== 1 ? 's' : ''} tracked
           </span>
-          <span className='font-medium text-gray-900'>
+          <span className='font-medium text-gray-400'>
             {total} total interactions
           </span>
         </div>

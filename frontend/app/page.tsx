@@ -139,11 +139,11 @@ const HomePage = () => {
   };
 
   return (
-    <div className='min-h-screen'>
+    <div className='min-h-screen w-full flex flex-col '>
       <AppBar />
       <Hero />
-      <div className='container mx-auto px-4 py-8'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div className='max-w-7xl mx-auto px-4 py-8 w-full '>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full '>
           <InputsCard />
           <Card
             title='Component Analytics'
@@ -181,7 +181,7 @@ const HomePage = () => {
                   className='w-full'
                 />
               </div>
-              <div>
+              <div className='w-full'>
                 <Button
                   variant='primary'
                   size='md'
@@ -192,24 +192,6 @@ const HomePage = () => {
                 </Button>
               </div>
             </div>
-
-            {/* Real-time click count */}
-            {/* <div className='mt-4 text-center'>
-              <p className='text-sm text-gray-600'>
-                {isTrackingLoading ? (
-                  'Loading clicks...'
-                ) : trackingStats ? (
-                  <>
-                    <span className='font-semibold text-blue-600'>
-                      {trackingStats.totalCount}
-                    </span>
-                    <span className='ml-1'>total clicks tracked</span>
-                  </>
-                ) : (
-                  'Click tracking enabled'
-                )}
-              </p>
-            </div> */}
           </Card>
           <Card
             title='Features'
@@ -248,26 +230,29 @@ const HomePage = () => {
             variant='elevated'
             padding='sm'
           >
-            <div className='flex justify-center'>
-              <RadarChart
-                data={[
-                  {
-                    label: 'Button',
-                    value: trackingStats?.totalCount || 0,
-                  },
-                  { label: 'Input', value: 15 },
-                  {
-                    label: 'Modal',
-                    value:
-                      trackingStats?.clickCounts?.find(
-                        (item) => item._id.buttonId === 'modal-open-button',
-                      )?.count || 0,
-                  },
-                  { label: 'Card', value: 25 },
-                ]}
-                size={280}
-                className='w-full'
-              />
+            <div className='flex flex-col h-full gap-4 items-center '>
+              <div className='flex justify-center flex-1'>
+                <RadarChart
+                  data={[
+                    {
+                      label: 'Button',
+                      value: trackingStats?.totalCount || 0,
+                    },
+                    { label: 'Input', value: 15 },
+                    {
+                      label: 'Modal',
+                      value:
+                        trackingStats?.clickCounts?.find(
+                          (item) => item._id.buttonId === 'modal-open-button',
+                        )?.count || 0,
+                    },
+                    { label: 'Card', value: 25 },
+                  ]}
+                  size={280}
+                  className='w-full'
+                />
+              </div>
+              <Button fullWidth>Refresh Stats</Button>
             </div>
           </Card>
           <ButtonsCard />

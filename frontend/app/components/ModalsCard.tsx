@@ -15,7 +15,7 @@ export const ModalsCard = ({ onOpenModal }: ModalsCardProps) => {
     >
       <div className='flex flex-col gap-4 h-full'>
         <div className='flex flex-col gap-4 flex-1'>
-          <p className='text-gray-700 text-sm'>
+          <p className='text-gray-300 text-sm'>
             Modals provide focused interaction surfaces for important content
             and actions.
           </p>
@@ -26,9 +26,6 @@ export const ModalsCard = ({ onOpenModal }: ModalsCardProps) => {
             <Button variant='outline' size='sm' fullWidth>
               View More Examples
             </Button>
-          </div>
-          <div className='text-xs text-gray-500 bg-gray-50 p-2 rounded'>
-            💡 Click the expand button on cards to see modals in action
           </div>
         </div>
         <Button>Learn More</Button>

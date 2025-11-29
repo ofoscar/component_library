@@ -49,7 +49,7 @@ const BarChartPage = () => {
   return (
     <div className='min-h-screen flex flex-col'>
       <AppBar />
-      <div className='container flex flex-col gap-8 px-4 py-8 flex-1'>
+      <div className='container self-center flex flex-col gap-8 px-4 py-8 flex-1'>
         <div>
           <h1 className='text-4xl font-bold text-gray-300 mb-2'>BarChart</h1>
           <p className='text-lg text-gray-400'>
@@ -82,7 +82,7 @@ const BarChartPage = () => {
                 title='Sales Performance'
                 height={280}
               />
-              <div className='mt-6 pt-6 border-t border-gray-700'>
+              <div className='mt-6 pt-6 border-t border-gray-300'>
                 <pre className='text-xs text-gray-300 overflow-x-auto'>
                   <code>{`const salesData = [
   { label: 'Mon', value: 45, color: '#187DBA' },

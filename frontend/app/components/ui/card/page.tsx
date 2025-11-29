@@ -72,7 +72,7 @@ export default function CardShowcase() {
   return (
     <div className='flex flex-col zmin-h-screen bg-[#0A0A0A]'>
       <AppBar />
-      <div className='max-w-7xl mx-auto p-6 lg:p-8 w-full'>
+      <div className='container self-center  mx-auto p-6 lg:p-8 w-full'>
         <div className='mb-8'>
           <h1 className='text-4xl font-bold text-white mb-4'>Card</h1>
           <p className='text-gray-400 text-lg'>
