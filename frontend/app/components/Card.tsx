@@ -90,7 +90,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             />
           </div>
         )}
-        <div style={{ padding: image ? paddingValues[padding] : 0 }}>
+        <div
+          className='flex flex-col h-full'
+          style={{ padding: image ? paddingValues[padding] : 0 }}
+        >
           {action && (
             <div
               className='absolute z-10'
@@ -125,7 +128,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
               )}
             </div>
           )}
-          {children}
+          <div className='h-full flex-1'>{children}</div>
         </div>
       </div>
     );

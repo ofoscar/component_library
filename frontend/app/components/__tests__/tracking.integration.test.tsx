@@ -362,11 +362,11 @@ describe('Tracking System Integration Tests', () => {
       await trackingAPI.trackButtonClick({
         buttonId: 'test',
         buttonText: 'Test',
-      );
+      });
 
       expect(mockFetch).toHaveBeenCalledWith(
         expect.stringContaining('/api/components/track'),
-        expect.any(Object)
+        expect.any(Object),
       );
     });
   });
