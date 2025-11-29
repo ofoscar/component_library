@@ -278,8 +278,8 @@ const HomePage = () => {
               />
             }
           >
-            <div className='flex flex-col gap-4 items-center'>
-              <div className='w-full'>
+            <div className='flex flex-col gap-4 items-center flex-1'>
+              <div className='w-full flex-1 items-center flex'>
                 <BarChart
                   data={[
                     {
@@ -302,14 +302,16 @@ const HomePage = () => {
                   className='w-full'
                 />
               </div>
-              <Button
-                variant='primary'
-                size='md'
-                fullWidth
-                onClick={handleTestButtonClick}
-              >
-                Send Petition
-              </Button>
+              <div>
+                <Button
+                  variant='primary'
+                  size='md'
+                  fullWidth
+                  onClick={handleTestButtonClick}
+                >
+                  Send Petition
+                </Button>
+              </div>
             </div>
 
             {/* Real-time click count */}
@@ -416,6 +418,46 @@ const HomePage = () => {
                 </Button>
                 <Button variant='secondary' size='md'>
                   Medium
+                </Button>
+              </div>
+              <div className='flex flex-wrap gap-2'>
+                <Button
+                  variant='primary'
+                  size='sm'
+                  startIcon={
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='16'
+                      height='16'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                    >
+                      <path d='M5 12h14M12 5l7 7-7 7' />
+                    </svg>
+                  }
+                >
+                  With Icon
+                </Button>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  endIcon={
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='16'
+                      height='16'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                    >
+                      <polyline points='9 18 15 12 9 6' />
+                    </svg>
+                  }
+                >
+                  Next
                 </Button>
               </div>
               <div className='flex gap-2'>

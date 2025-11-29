@@ -43,7 +43,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         className={`${baseStyles} ${variants[variant]} ${
           fullWidth ? 'w-full' : ''
-        } ${className} relative`}
+        } ${className} relative flex flex-col`}
         style={{
           borderRadius: 'var(--radius-lg)',
           background: 'var(--colors-cardBg)',

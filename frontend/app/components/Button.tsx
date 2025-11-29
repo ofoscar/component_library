@@ -5,6 +5,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   isLoading?: boolean;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -15,6 +17,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'md',
       fullWidth = false,
       isLoading = false,
+      startIcon,
+      endIcon,
       className = '',
       disabled,
       ...props
@@ -99,7 +103,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             Loading...
           </span>
         ) : (
-          children
+          <span
+            className='flex items-center justify-center'
+            style={{ gap: 'var(--spacing-xs)' }}
+          >
+            {startIcon && (
+              <span className='flex items-center'>{startIcon}</span>
+            )}
+            {children}
+            {endIcon && <span className='flex items-center'>{endIcon}</span>}
+          </span>
         )}
       </button>
     );
