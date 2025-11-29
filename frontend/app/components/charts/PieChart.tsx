@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 interface DataPoint {
   label: string;
@@ -23,6 +23,9 @@ const PieChart: React.FC<PieChartProps> = ({
   className = '',
   showLegend = true,
 }) => {
+  const [hoveredSlice, setHoveredSlice] = useState<number | null>(null);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+
   const colors = [
     '#3B82F6', // blue
     '#8B5CF6', // purple
@@ -127,7 +130,12 @@ const PieChart: React.FC<PieChartProps> = ({
       >
         {/* Pie Chart SVG */}
         <div className='relative group flex justify-center md:justify-start'>
-          <svg width={size} height={size} className='drop-shadow-sm'>
+          <svg
+            width={size}
+            height={size}
+            className='drop-shadow-sm'
+            onMouseLeave={() => setHoveredSlice(null)}
+          >
             {slices.map((slice, index) => {
               const labelPos = getLabelPosition(
                 slice.startAngle,
@@ -139,6 +147,14 @@ const PieChart: React.FC<PieChartProps> = ({
                 <g
                   key={slice.label}
                   className='hover:opacity-80 transition-opacity duration-200'
+                  onMouseEnter={(e) => {
+                    setHoveredSlice(index);
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setTooltipPos({ x: e.clientX, y: e.clientY });
+                  }}
+                  onMouseMove={(e) => {
+                    setTooltipPos({ x: e.clientX, y: e.clientY });
+                  }}
                 >
                   <path
                     d={createPath(slice.startAngle, slice.endAngle, size * 0.4)}
@@ -174,15 +190,24 @@ const PieChart: React.FC<PieChartProps> = ({
                       </tspan>
                     </text>
                   )}
-                  {/* Tooltip on hover */}
-                  <title>
-                    {slice.label}: {slice.value} ({slice.percentage.toFixed(1)}
-                    %)
-                  </title>
                 </g>
               );
             })}
           </svg>
+
+          {/* Custom Tooltip */}
+          {hoveredSlice !== null && (
+            <div
+              className='fixed bg-gray-900 text-white px-3 py-2 rounded-lg shadow-lg text-sm pointer-events-none z-50'
+              style={{
+                left: `${tooltipPos.x + 10}px`,
+                top: `${tooltipPos.y + 10}px`,
+              }}
+            >
+              {slices[hoveredSlice].label}: {slices[hoveredSlice].value} (
+              {slices[hoveredSlice].percentage.toFixed(1)}%)
+            </div>
+          )}
 
           {/* Center label showing total */}
           {/* <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>

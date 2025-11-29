@@ -37,7 +37,7 @@ export const LogoIcon = () => {
 };
 
 const AppBar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -144,7 +144,13 @@ const AppBar = () => {
             >
               <MenuButton />
             </button>
-            <h1 className='text-xl font-bold'>Menu</h1>
+            <Link
+              href='/'
+              className='cursor-pointer hover:opacity-80 transition-opacity'
+              aria-label='Go to home'
+            >
+              <LogoIcon />
+            </Link>
           </div>
           <div className='flex flex-row gap-4 items-center'>
             <svg
@@ -167,31 +173,75 @@ const AppBar = () => {
             <div className='relative' ref={menuRef}>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className='w-10 h-10 rounded-full overflow-hidden hover:opacity-80 transition-opacity cursor-pointer border border-gray-300'
+                className='w-8 h-8 rounded-full overflow-hidden hover:opacity-80 transition-opacity cursor-pointer border border-gray-300 flex items-center justify-center bg-[#1a1a1a]'
                 aria-label='User menu'
               >
-                <img
-                  src='https://images.unsplash.com/photo-1750535135696-4421c9a90746?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                  alt='User avatar'
-                  className='w-full h-full object-cover'
-                />
+                {isAuthenticated ? (
+                  <img
+                    src='https://images.unsplash.com/photo-1750535135696-4421c9a90746?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                    alt='User avatar'
+                    className='w-full h-full object-cover'
+                  />
+                ) : (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='20'
+                    height='20'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      fill='#D7D7D7'
+                      d='M12 12q-1.65 0-2.825-1.175T8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12m-8 8v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20z'
+                    />
+                  </svg>
+                )}
               </button>
 
               {/* Floating menu */}
               {isMenuOpen && (
-                <div className='absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10'>
-                  <div className='px-4 py-2 border-b border-gray-200'>
-                    <p className='text-sm font-semibold text-gray-900'>
-                      {user?.name}
-                    </p>
-                    <p className='text-xs text-gray-500'>{user?.email}</p>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer'
-                  >
-                    Logout
-                  </button>
+                <div
+                  className='absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50'
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {isAuthenticated ? (
+                    <>
+                      <div className='px-4 py-2 border-b border-gray-200'>
+                        <p className='text-sm font-semibold text-gray-900'>
+                          {user?.name}
+                        </p>
+                        <p className='text-xs text-gray-500'>{user?.email}</p>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer'
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsMenuOpen(false);
+                          router.push('/login');
+                        }}
+                        className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer'
+                      >
+                        Login
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsMenuOpen(false);
+                          router.push('/register');
+                        }}
+                        className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer'
+                      >
+                        Register
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>

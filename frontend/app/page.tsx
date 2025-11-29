@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import AnimatedBackground from './components/AnimatedBackground';
 import AppBar from './components/AppBar';
 import Button from './components/Button';
 import Card from './components/Card';
@@ -9,9 +8,7 @@ import BarChart from './components/charts/BarChart';
 import PieChart from './components/charts/PieChart';
 import Footer from './components/Footer';
 import Input from './components/Input';
-import LoginForm from './components/LoginForm';
 import { Modal } from './components/ui';
-import { useAuth } from './services/auth-context';
 import { subscribeAPI } from './services/subscribeAPI';
 import { trackingAPI, TrackingStats } from './services/trackingAPI';
 
@@ -74,9 +71,9 @@ export const Hero = () => {
   };
 
   return (
-    <AnimatedBackground className='w-screen h-96'>
+    <div className='w-full h-96 bg-[#660708]'>
       {/* Subscription Form */}
-      <div className='flex flex-col items-center justify-center h-96 p-4 relative'>
+      <div className='flex flex-col items-center justify-center h-96 p-4 relative w-full'>
         <div className='flex flex-col gap-4 w-full max-w-md'>
           <h1 className='text-2xl font-bold text-center text-white'>
             Receive more information about this component library
@@ -135,7 +132,7 @@ export const Hero = () => {
           </div>
         </div>
       </div>
-    </AnimatedBackground>
+    </div>
   );
 };
 
@@ -501,15 +498,9 @@ const HomePage = () => {
 };
 
 export default function Home() {
-  const { isAuthenticated, isLoading } = useAuth();
-
-  if (isLoading) {
-    return (
-      <main className='flex items-center justify-center min-h-screen'>
-        <p>Loading...</p>
-      </main>
-    );
-  }
-
-  return <main>{isAuthenticated ? <HomePage /> : <LoginForm />}</main>;
+  return (
+    <main>
+      <HomePage />
+    </main>
+  );
 }
