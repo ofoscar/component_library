@@ -12,6 +12,12 @@
 
 # testing
 /coverage
+coverage/
+*.lcov
+.nyc_output
+/test-results/
+/playwright-report/
+/playwright/.cache/
 
 # next.js
 /.next/

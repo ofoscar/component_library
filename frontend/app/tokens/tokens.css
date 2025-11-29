@@ -1,0 +1,42 @@
+/* Optional: import this file at top-level if you prefer static CSS variables */
+:root {
+  --colors-bg: #1f1f20;
+  --colors-surface: #0f0f10;
+  --colors-cardBg: #171717;
+  --colors-cardBorder: rgba(255, 255, 255, 0.04);
+  --colors-muted: #9b9b9b;
+  --colors-textPrimary: #f6f6f6;
+  --colors-textSecondary: #cfcfcf;
+  --colors-accent-blue-500: #008fdd;
+  --colors-accent-red-500: #d62f2f;
+  --colors-gradientHero: linear-gradient(
+    135deg,
+    #d62f2f 0%,
+    #e35a57 40%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  --colors-codeBg: #0b0b0c;
+  --colors-codeBorder: rgba(255, 255, 255, 0.03);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 9999px;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+
+  --typography-fontFamily: 'Inter', system-ui, -apple-system, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial;
+  --typography-h1: 28px;
+  --typography-h2: 20px;
+  --typography-body: 14px;
+  --typography-mono: 13px;
+
+  --elevation-card: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --elevation-dialog: 0 20px 40px rgba(0, 0, 0, 0.7);
+  --elevation-insetGlow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
