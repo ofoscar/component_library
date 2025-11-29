@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 interface AnimatedBackgroundProps {
   className?: string;
@@ -11,139 +11,17 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
   className = '',
   children,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationFrameRef = useRef<number | undefined>(undefined);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let time = 0;
-
-    const resizeCanvas = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
-    };
-
-    const animate = () => {
-      const width = canvas.clientWidth;
-      const height = canvas.clientHeight;
-
-      // Clear canvas
-      ctx.clearRect(0, 0, width, height);
-
-      // Create fluid gradient similar to the shader
-      const gradient1 = ctx.createLinearGradient(0, 0, width, height);
-      const gradient2 = ctx.createRadialGradient(
-        width * 0.3 + Math.sin(time * 0.002) * 100,
-        height * 0.7 + Math.cos(time * 0.003) * 80,
-        0,
-        width * 0.7,
-        height * 0.3,
-        Math.max(width, height) * 0.8,
-      );
-
-      // Colors similar to the shader (dark purple/black tones with orange accents)
-      const colors = {
-        dark1: `rgba(${Math.floor(
-          22 + Math.sin(time * 0.001) * 10,
-        )}, ${Math.floor(18 + Math.cos(time * 0.0015) * 8)}, ${Math.floor(
-          20 + Math.sin(time * 0.0008) * 12,
-        )}, 1)`,
-        dark2: `rgba(${Math.floor(
-          44 + Math.sin(time * 0.0012) * 15,
-        )}, ${Math.floor(36 + Math.cos(time * 0.0018) * 12)}, ${Math.floor(
-          40 + Math.sin(time * 0.001) * 18,
-        )}, 1)`,
-        accent1: `rgba(${Math.floor(
-          186 + Math.sin(time * 0.001) * 20,
-        )}, ${Math.floor(24 + Math.cos(time * 0.0008) * 8)}, ${Math.floor(
-          27 + Math.sin(time * 0.0012) * 10,
-        )}, ${0.8 + Math.sin(time * 0.002) * 0.2})`,
-        accent2: `rgba(${Math.floor(
-          229 + Math.sin(time * 0.0015) * 15,
-        )}, ${Math.floor(56 + Math.cos(time * 0.001) * 12)}, ${Math.floor(
-          59 + Math.sin(time * 0.0018) * 15,
-        )}, ${0.6 + Math.cos(time * 0.0025) * 0.3})`,
-      };
-
-      // First gradient layer
-      gradient1.addColorStop(0, colors.dark1);
-      gradient1.addColorStop(0.3, colors.accent1);
-      gradient1.addColorStop(0.7, colors.dark2);
-      gradient1.addColorStop(1, colors.accent2);
-
-      ctx.fillStyle = gradient1;
-      ctx.fillRect(0, 0, width, height);
-
-      // Second gradient layer for complexity
-      gradient2.addColorStop(0, colors.accent1);
-      gradient2.addColorStop(0.4, 'rgba(0, 0, 0, 0.1)');
-      gradient2.addColorStop(0.8, colors.dark2);
-      gradient2.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
-
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.fillStyle = gradient2;
-      ctx.fillRect(0, 0, width, height);
-
-      // Add animated wave patterns
-      ctx.globalCompositeOperation = 'screen';
-      for (let i = 0; i < 3; i++) {
-        const waveGradient = ctx.createLinearGradient(
-          0,
-          0,
-          width + Math.sin(time * 0.001 + i) * 200,
-          height + Math.cos(time * 0.0015 + i) * 150,
-        );
-
-        const opacity = 0.1 + Math.sin(time * 0.002 + i) * 0.05;
-        waveGradient.addColorStop(0, `rgba(186, 24, 27, 0)`);
-        waveGradient.addColorStop(0.5, `rgba(229, 56, 59, ${opacity})`);
-        waveGradient.addColorStop(1, `rgba(186, 24, 27, 0)`);
-
-        ctx.fillStyle = waveGradient;
-        ctx.fillRect(0, 0, width, height);
-      }
-
-      // Reset composite operation
-      ctx.globalCompositeOperation = 'source-over';
-
-      time += 1;
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    // Handle resize
-    const handleResize = () => {
-      resizeCanvas();
-    };
-
-    // Initialize
-    resizeCanvas();
-    animate();
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
-
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <canvas
-        ref={canvasRef}
+      <iframe
+        src='data:text/html;base64,PGh0bWw+CiAgICAgICAgPGhlYWQ+CiAgICAgICAgICAgIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MSI+CiAgICAgICAgICAgIDxzdHlsZT4KICAgICAgICAgICAgICAgIGh0bWwsIGJvZHl7CiAgICAgICAgICAgICAgICAgICAgbWFyZ2luOiAwOwogICAgICAgICAgICAgICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgICAgICAgICAgICAgd2lkdGg6IDEwMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgICAgICAgICAgICAgIGJvcmRlcjogMDsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgPC9zdHlsZT4KICAgICAgICAgICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vdW5wa2cuY29tL21lZGlhLXNoYWRlckBsYXRlc3QvbWVkaWEtc2hhZGVyLmpzIj48L3NjcmlwdD4KICAgIDxtZWRpYS1zaGFkZXIKICAgICAgICB3aWR0aD0iMTAyNHB4IiAKICAgICAgICBoZWlnaHQ9IjEwMjRweCIKICAgICAgICBmcmFnbWVudC1zaGFkZXI9JyN2ZXJzaW9uIDMwMCBlcwogICAgcHJlY2lzaW9uIGhpZ2hwIGZsb2F0OwogICAgb3V0IHZlYzQgZ2xGcmFnQ29sb3I7CiAgICB1bmlmb3JtIHZlYzIgdV9yZXNvbHV0aW9uOwp1bmlmb3JtIGZsb2F0IHVfdGltZTsKdW5pZm9ybSB2ZWM0IHVfYmFja2dyb3VuZDsKdW5pZm9ybSB2ZWMzIHVfY29sb3I7CnVuaWZvcm0gZmxvYXQgdV9zcGVlZDsKdW5pZm9ybSBmbG9hdCB1X2RldGFpbDsKbWF0MiBtKGZsb2F0IGEpIHsKICAgIGZsb2F0IGM9Y29zKGEpLCBzPXNpbihhKTsKICAgIHJldHVybiBtYXQyKGMsLXMscyxjKTsKfQojaWZuZGVmIEZOQ19SR0IyTFVNQQojZGVmaW5lIEZOQ19SR0IyTFVNQQpmbG9hdCByZ2IybHVtYShpbiB2ZWMzIGNvbG9yKSB7CiAgICByZXR1cm4gZG90KGNvbG9yLCB2ZWMzKDAuMjk5LCAwLjU4NywgMC4xMTQpKTsKfQpmbG9hdCByZ2IybHVtYShpbiB2ZWM0IGNvbG9yKSB7CiAgICByZXR1cm4gcmdiMmx1bWEoY29sb3IucmdiKTsKfQojZW5kaWYKI2lmbmRlZiBGTkNfTFVNQQojZGVmaW5lIEZOQ19MVU1BCmZsb2F0IGx1bWEoZmxvYXQgdikgeyByZXR1cm4gdjsgfQpmbG9hdCBsdW1hKGluIHZlYzMgdikgeyByZXR1cm4gcmdiMmx1bWEodik7IH0KZmxvYXQgbHVtYShpbiB2ZWM0IHYpIHsgcmV0dXJuIHJnYjJsdW1hKHYucmdiKTsgfQojZW5kaWYKZmxvYXQgbWFwKHZlYzMgcCkgewogICAgZmxvYXQgdCA9IHVfdGltZSAqIHVfc3BlZWQ7CiAgICBwLnh6ICo9IG0odCAqIDAuNCk7cC54eSo9IG0odCAqIDAuMSk7CiAgICB2ZWMzIHEgPSBwICogMi4wICsgdDsKICAgIHJldHVybiBsZW5ndGgocCt2ZWMzKHNpbigodCp1X3NwZWVkKSAqIDAuMSkpKSAqIGxvZyhsZW5ndGgocCkgKyAwLjkpICsgY29zKHEueCArIHNpbihxLnogKyBjb3MocS55KSkpICogMC41IC0gMS4wOwp9CnZvaWQgbWFpbigpIHsKICAgIHZlYzIgYSA9IGdsX0ZyYWdDb29yZC54eSAvIHVfcmVzb2x1dGlvbi54IC0gdmVjMigwLjUsIDAuNSk7CiAgICB2ZWMzIGNsID0gdmVjMygwLjApOwogICAgZmxvYXQgZCA9IDIuNTsKICAgIGZvciAoZmxvYXQgaSA9IDAuOyBpIDw9ICgxLiArIDIwLiAqIHVfZGV0YWlsKTsgaSsrKSB7CiAgICAgICAgdmVjMyBwID0gdmVjMygwLCAwLCA0LjApICsgbm9ybWFsaXplKHZlYzMoYSwgLTEuMCkpICogZDsKICAgICAgICBmbG9hdCByeiA9IG1hcChwKTsKICAgICAgICBmbG9hdCBmID0gIGNsYW1wKChyeiAtIG1hcChwICsgMC4xKSkgKiAwLjUsIC0wLjEsIDEuMCk7CiAgICAgICAgdmVjMyBsID0gdmVjMygwLjEsIDAuMywgMC40KSArIHZlYzMoNS4wLCAyLjUsIDMuMCkgKiBmOwogICAgICAgIGNsID0gY2wgKiBsICsgc21vb3Roc3RlcCgyLjUsIDAuMCwgcnopICogMC42ICogbDsKICAgICAgICBkICs9IG1pbihyeiwgMS4wKTsKICAgIH0KICAgIHZlYzQgY29sb3IgPSB2ZWM0KG1pbih1X2NvbG9yLCBjbCksMS4wKTsKICAgIGNvbG9yLnIgPSBtYXgodV9iYWNrZ3JvdW5kLnIsY29sb3Iucik7CiAgICBjb2xvci5nID0gbWF4KHVfYmFja2dyb3VuZC5nLGNvbG9yLmcpOwogICAgY29sb3IuYiA9IG1heCh1X2JhY2tncm91bmQuYixjb2xvci5iKTsKICAgIGdsRnJhZ0NvbG9yID0gY29sb3I7Cn0nCiAgICAgICAgdW5pZm9ybXM9J3sidV9iYWNrZ3JvdW5kIjpbMCwwLDAsMV0sInVfY29sb3IiOlswLjUxNzY0NzA1ODgyMzUyOTUsMC4wNjY2NjY2NjY2NjY2NjY2NywwLjA3NDUwOTgwMzkyMTU2ODYzXSwidV9zcGVlZCI6MC4xLCJ1X2RldGFpbCI6MC4yNzZ9Jz4KICAgIDwvbWVkaWEtc2hhZGVyPgogICAgICAgIDwvaGVhZD4KICAgICAgICA8Ym9keT48L2JvZHk+CiAgICAgICAgPC9odG1sPg=='
         className='absolute inset-0 w-full h-full'
-        style={{ background: 'transparent' }}
+        style={{
+          border: 0,
+          margin: 0,
+          pointerEvents: 'none',
+        }}
+        title='Animated shader background'
       />
       <div className='relative z-10'>{children}</div>
     </div>
