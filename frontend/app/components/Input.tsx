@@ -3,6 +3,7 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  success?: string;
   fullWidth?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
@@ -13,6 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     {
       label,
       error,
+      success,
       fullWidth = false,
       startIcon,
       endIcon,
@@ -42,6 +44,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 paddingLeft: 'var(--spacing-md)',
                 color: error
                   ? 'var(--colors-accent-red-500)'
+                  : success
+                  ? 'var(--colors-accent-green-500)'
                   : 'var(--colors-muted)',
               }}
             >
@@ -62,6 +66,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               borderRadius: 'var(--radius-md)',
               borderColor: error
                 ? 'var(--colors-accent-red-500)'
+                : success
+                ? 'var(--colors-accent-green-500)'
                 : 'rgba(255,255,255,0.3)',
               background: 'rgba(255,255,255,0.1)',
               color: 'var(--colors-textPrimary)',
@@ -76,6 +82,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 paddingRight: 'var(--spacing-md)',
                 color: error
                   ? 'var(--colors-accent-red-500)'
+                  : success
+                  ? 'var(--colors-accent-green-500)'
                   : 'var(--colors-muted)',
               }}
             >
@@ -89,6 +97,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             style={{ color: 'var(--colors-accent-red-500)' }}
           >
             {error}
+          </span>
+        )}
+        {success && !error && (
+          <span
+            className='text-sm'
+            style={{ color: 'var(--colors-accent-green-500)' }}
+          >
+            {success}
           </span>
         )}
       </div>

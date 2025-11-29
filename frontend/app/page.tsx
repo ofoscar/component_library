@@ -475,7 +475,12 @@ const HomePage = () => {
             padding='md'
           >
             <div className='flex flex-col gap-3'>
-              <Input placeholder='Default input' />
+              <Input
+                placeholder='Email verified'
+                success='Email is valid and available!'
+                value='user@example.com'
+                onChange={() => {}}
+              />
               <Input placeholder='Disabled input' disabled />
               <Input
                 placeholder='With value'

@@ -7,6 +7,9 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   padding?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   action?: React.ReactNode;
+  image?: string;
+  imageAlt?: string;
+  imageHeight?: number | string;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
@@ -19,6 +22,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       padding = 'md',
       fullWidth = false,
       action,
+      image,
+      imageAlt = '',
+      imageHeight = 200,
       className = '',
       ...props
     },
@@ -48,7 +54,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           borderRadius: 'var(--radius-lg)',
           background: 'var(--colors-cardBg)',
           borderColor: 'var(--colors-cardBorder)',
-          padding: paddingValues[padding],
+          padding: image ? 0 : paddingValues[padding],
           boxShadow:
             variant === 'elevated'
               ? 'var(--elevation-card)'
@@ -56,42 +62,71 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
               ? '0 1px 3px rgba(0,0,0,0.3)'
               : 'none',
           color: 'var(--colors-textPrimary)',
+          overflow: 'hidden',
           ...props.style,
         }}
         {...props}
       >
-        {action && (
+        {image && (
           <div
-            className='absolute z-10'
-            style={{ top: 'var(--spacing-md)', right: 'var(--spacing-md)' }}
+            style={{
+              width: '100%',
+              height:
+                typeof imageHeight === 'number'
+                  ? `${imageHeight}px`
+                  : imageHeight,
+              overflow: 'hidden',
+            }}
           >
-            {action}
+            <img
+              src={image}
+              alt={imageAlt}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
           </div>
         )}
-        {(title || subtitle) && (
-          <div className='w-full' style={{ marginBottom: 'var(--spacing-md)' }}>
-            {title && (
-              <h3
-                className='text-lg font-semibold'
-                style={{
-                  color: 'var(--colors-textPrimary)',
-                  marginBottom: 'var(--spacing-xs)',
-                }}
-              >
-                {title}
-              </h3>
-            )}
-            {subtitle && (
-              <p
-                className='text-sm'
-                style={{ color: 'var(--colors-textSecondary)' }}
-              >
-                {subtitle}
-              </p>
-            )}
-          </div>
-        )}
-        {children}
+        <div style={{ padding: image ? paddingValues[padding] : 0 }}>
+          {action && (
+            <div
+              className='absolute z-10'
+              style={{ top: 'var(--spacing-md)', right: 'var(--spacing-md)' }}
+            >
+              {action}
+            </div>
+          )}
+          {(title || subtitle) && (
+            <div
+              className='w-full'
+              style={{ marginBottom: 'var(--spacing-md)' }}
+            >
+              {title && (
+                <h3
+                  className='text-lg font-semibold'
+                  style={{
+                    color: 'var(--colors-textPrimary)',
+                    marginBottom: 'var(--spacing-xs)',
+                  }}
+                >
+                  {title}
+                </h3>
+              )}
+              {subtitle && (
+                <p
+                  className='text-sm'
+                  style={{ color: 'var(--colors-textSecondary)' }}
+                >
+                  {subtitle}
+                </p>
+              )}
+            </div>
+          )}
+          {children}
+        </div>
       </div>
     );
   },
