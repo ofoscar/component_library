@@ -3,12 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import AppBar from './components/AppBar';
 import Button from './components/Button';
+import { ButtonsCard } from './components/ButtonsCard';
 import Card from './components/Card';
 import BarChart from './components/charts/BarChart';
 import PieChart from './components/charts/PieChart';
 import RadarChart from './components/charts/RadarChart';
 import Footer from './components/Footer';
 import Input from './components/Input';
+import { ModalsCard } from './components/ModalsCard';
 import { Modal } from './components/ui';
 import { subscribeAPI } from './services/subscribeAPI';
 import { trackingAPI, TrackingStats } from './services/trackingAPI';
@@ -278,8 +280,8 @@ const HomePage = () => {
               />
             }
           >
-            <div className='flex flex-col gap-4 items-center flex-1'>
-              <div className='w-full flex-1 items-center flex'>
+            <div className='flex flex-col h-full gap-4 items-center flex-1'>
+              <div className='w-full h-full flex-1 items-center flex'>
                 <BarChart
                   data={[
                     {
@@ -391,82 +393,7 @@ const HomePage = () => {
               />
             </div>
           </Card>
-          <Card
-            title='Buttons'
-            subtitle='Interactive button components'
-            variant='elevated'
-            padding='md'
-          >
-            <div className='flex flex-col gap-3'>
-              <div className='flex flex-wrap gap-2'>
-                <Button variant='primary' size='sm'>
-                  Primary
-                </Button>
-                <Button variant='secondary' size='sm'>
-                  Secondary
-                </Button>
-                <Button variant='outline' size='sm'>
-                  Outline
-                </Button>
-                <Button variant='danger' size='sm'>
-                  Danger
-                </Button>
-              </div>
-              <div className='flex flex-wrap gap-2'>
-                <Button variant='primary' size='md'>
-                  Medium
-                </Button>
-                <Button variant='secondary' size='md'>
-                  Medium
-                </Button>
-              </div>
-              <div className='flex flex-wrap gap-2'>
-                <Button
-                  variant='primary'
-                  size='sm'
-                  startIcon={
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                    >
-                      <path d='M5 12h14M12 5l7 7-7 7' />
-                    </svg>
-                  }
-                >
-                  With Icon
-                </Button>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  endIcon={
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                    >
-                      <polyline points='9 18 15 12 9 6' />
-                    </svg>
-                  }
-                >
-                  Next
-                </Button>
-              </div>
-              <div className='flex gap-2'>
-                <Button variant='primary' size='lg' fullWidth>
-                  Large Full Width
-                </Button>
-              </div>
-            </div>
-          </Card>
+          <ButtonsCard />
 
           <Card
             title='Inputs'
@@ -508,33 +435,22 @@ const HomePage = () => {
             </div>
           </Card>
 
+          <ModalsCard onOpenModal={() => setIsModalOpen(true)} />
           <Card
-            title='Modals'
-            subtitle='Dialog and overlay components'
-            variant='default'
+            title='Beautiful Landscape'
+            subtitle='Card with image example'
+            variant='elevated'
             padding='md'
+            image='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80'
+            imageAlt='Mountain landscape'
+            imageHeight={200}
           >
-            <div className='space-y-4'>
-              <p className='text-gray-700 text-sm'>
-                Modals provide focused interaction surfaces for important
-                content and actions.
+            <div>
+              <p className='text-sm text-gray-600'>
+                This card demonstrates the image feature with a beautiful
+                landscape photo. The image automatically adjusts to fill the
+                width while maintaining aspect ratio.
               </p>
-              <div className='flex flex-col gap-2'>
-                <Button
-                  variant='primary'
-                  size='sm'
-                  fullWidth
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  Open Analytics Modal
-                </Button>
-                <Button variant='outline' size='sm' fullWidth>
-                  View More Examples
-                </Button>
-              </div>
-              <div className='text-xs text-gray-500 bg-gray-50 p-2 rounded'>
-                💡 Click the expand button on cards to see modals in action
-              </div>
             </div>
           </Card>
         </div>

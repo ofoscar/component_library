@@ -47,7 +47,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || isLoading}
         className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${
           fullWidth ? 'w-full' : ''
-        } ${className}`}
+        } ${className} ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
         style={{
           borderRadius:
             variant === 'primary' ? 'var(--radius-pill)' : 'var(--radius-md)',
