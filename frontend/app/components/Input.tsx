@@ -4,10 +4,23 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   fullWidth?: boolean;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, fullWidth = false, className = '', ...props }, ref) => {
+  (
+    {
+      label,
+      error,
+      fullWidth = false,
+      startIcon,
+      endIcon,
+      className = '',
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <div
         className={`flex flex-col ${fullWidth ? 'w-full' : ''}`}
@@ -21,21 +34,55 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          className={`text-white border backdrop-blur-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all ${className}`}
-          style={{
-            padding: 'var(--spacing-md)',
-            borderRadius: 'var(--radius-md)',
-            borderColor: error
-              ? 'var(--colors-accent-red-500)'
-              : 'rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.1)',
-            color: 'var(--colors-textPrimary)',
-            ...props.style,
-          }}
-          {...props}
-        />
+        <div className='relative' style={{ width: '100%' }}>
+          {startIcon && (
+            <div
+              className='absolute inset-y-0 left-0 flex items-center pointer-events-none z-10'
+              style={{
+                paddingLeft: 'var(--spacing-md)',
+                color: error
+                  ? 'var(--colors-accent-red-500)'
+                  : 'var(--colors-muted)',
+              }}
+            >
+              {startIcon}
+            </div>
+          )}
+          <input
+            ref={ref}
+            className={`text-white border focus:outline-none focus:ring-2 focus:border-transparent transition-all w-full ${className}`}
+            style={{
+              padding: 'var(--spacing-md)',
+              paddingLeft: startIcon
+                ? 'calc(var(--spacing-md) * 3)'
+                : 'var(--spacing-md)',
+              paddingRight: endIcon
+                ? 'calc(var(--spacing-md) * 3)'
+                : 'var(--spacing-md)',
+              borderRadius: 'var(--radius-md)',
+              borderColor: error
+                ? 'var(--colors-accent-red-500)'
+                : 'rgba(255,255,255,0.3)',
+              background: 'rgba(255,255,255,0.1)',
+              color: 'var(--colors-textPrimary)',
+              ...props.style,
+            }}
+            {...props}
+          />
+          {endIcon && (
+            <div
+              className='absolute inset-y-0 right-0 flex items-center pointer-events-none z-10'
+              style={{
+                paddingRight: 'var(--spacing-md)',
+                color: error
+                  ? 'var(--colors-accent-red-500)'
+                  : 'var(--colors-muted)',
+              }}
+            >
+              {endIcon}
+            </div>
+          )}
+        </div>
         {error && (
           <span
             className='text-sm'
