@@ -267,7 +267,7 @@ const HomePage = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           <Card
             title='Component Analytics'
-            subtitle='Real-time usage statistics'
+            subtitle='Track user interactions'
             variant='elevated'
             padding='sm'
             action={
@@ -307,7 +307,7 @@ const HomePage = () => {
                 fullWidth
                 onClick={handleTestButtonClick}
               >
-                Test Button
+                Send Petition
               </Button>
             </div>
 

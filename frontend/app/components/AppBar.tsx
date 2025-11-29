@@ -9,8 +9,8 @@ export const MenuButton = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
+      width='22px'
+      height='22px'
       viewBox='0 0 24 24'
     >
       <rect width='24' height='24' fill='none' />
@@ -23,13 +23,13 @@ export const LogoIcon = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
+      width='28px'
+      height='28px'
       viewBox='0 0 24 24'
     >
       <rect width='24' height='24' fill='none' />
       <path
-        fill='#757575'
+        fill='#C84649'
         d='M14.66 14.18c.03.11.04.22.04.32c.03.65-.26 1.35-.73 1.78c-.22.19-.58.39-.86.47c-.88.31-1.76-.13-2.28-.64c.94-.22 1.49-.9 1.67-1.61c.12-.61-.13-1.12-.23-1.72c-.1-.58-.08-1.07.13-1.6c.15.29.31.59.5.82c.6.78 1.55 1.12 1.76 2.18M22 12c0 5.5-4.5 10-10 10S2 17.5 2 12S6.5 2 12 2s10 4.5 10 10m-4.84.56l-.1-.2c-.16-.36-.61-.98-.61-.98c-.18-.23-.4-.44-.6-.64c-.53-.47-1.12-.8-1.63-1.29c-1.17-1.14-1.43-3.01-.68-4.45c-.75.18-1.4.58-1.96 1.03c-2.03 1.62-2.83 4.47-1.87 6.92c.03.08.06.16.06.26c0 .17-.12.32-.27.39c-.19.07-.37.03-.5-.1a.3.3 0 0 1-.13-.13c-.87-1.11-1.03-2.71-.44-3.98c-1.31 1.06-2.02 2.85-1.93 4.53c.06.39.1.78.24 1.17c.11.47.32.91.56 1.35c.84 1.34 2.31 2.31 3.89 2.5c1.68.21 3.48-.09 4.77-1.24c1.44-1.3 1.94-3.37 1.2-5.14'
       />
     </svg>
@@ -128,18 +128,27 @@ const AppBar = () => {
                     Modal
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href='/components/ui/card'
+                    className='block px-4 py-2 rounded-md hover:bg-[#2a2a2a] transition-colors cursor-pointer'
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
+                    Card
+                  </Link>
+                </li>
               </ul>
             </div>
           </nav>
         </div>
       </div>
 
-      <header className='bg-[#0B090A] text-white shadow-md'>
+      <header className='bg-[#0B090A] text-white shadow-md relative z-50'>
         <div className='px-4 py-4 flex items-center justify-between'>
           <div className='flex flex-row gap-2 items-center'>
             <button
               onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-              className='cursor-pointer hover:opacity-80 transition-opacity'
+              className='md:hidden cursor-pointer hover:opacity-80 transition-opacity'
               aria-label='Toggle menu'
             >
               <MenuButton />
@@ -152,6 +161,93 @@ const AppBar = () => {
               <LogoIcon />
             </Link>
           </div>
+
+          {/* Desktop Navigation */}
+          <nav className='hidden md:flex flex-row gap-8 items-center'>
+            <div className='flex flex-row gap-6 items-center'>
+              {/* UI Components Group */}
+              <div className='relative group'>
+                <button className='text-sm font-medium text-gray-300 hover:text-white transition-colors'>
+                  UI Components
+                </button>
+                <div className='absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] rounded-md shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
+                  <Link
+                    href='/components/ui/button'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Button
+                  </Link>
+                  <Link
+                    href='/components/ui/input'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Input
+                  </Link>
+                  <Link
+                    href='/components/ui/modal'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Modal
+                  </Link>
+                  <Link
+                    href='/components/ui/card'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Card
+                  </Link>
+                </div>
+              </div>
+
+              {/* Charts Group */}
+              <div className='relative group'>
+                <button className='text-sm font-medium text-gray-300 hover:text-white transition-colors'>
+                  Charts
+                </button>
+                <div className='absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] rounded-md shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
+                  <Link
+                    href='/components/charts/bar'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Bar Chart
+                  </Link>
+                  <Link
+                    href='/components/charts/pie'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Pie Chart
+                  </Link>
+                </div>
+              </div>
+
+              {/* Auth Group */}
+              <div className='relative group'>
+                <button className='text-sm font-medium text-gray-300 hover:text-white transition-colors'>
+                  Auth
+                </button>
+                <div className='absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] rounded-md shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
+                  <Link
+                    href='/login'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href='/register'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Register
+                  </Link>
+                  <Link
+                    href='/users'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Users
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </nav>
+
           <div className='flex flex-row gap-4 items-center'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -169,6 +265,7 @@ const AppBar = () => {
                 />
               </g>
             </svg>
+            <div className='h-5 w-0.3 border border-gray-300/50' />
             {/* User avatar button */}
             <div className='relative' ref={menuRef}>
               <button
