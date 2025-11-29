@@ -94,7 +94,6 @@ const AppBar = () => {
             <LogoIcon />
             <h2 className='text-xl font-bold'>Menu</h2>
           </div>
-
           <nav>
             <div className='mb-6'>
               <h3 className='text-sm font-semibold text-gray-400 mb-3'>
@@ -143,7 +142,7 @@ const AppBar = () => {
         </div>
       </div>
 
-      <header className='bg-[#0B090A] text-white shadow-md relative z-50'>
+      <header className='bg-[#0B090A] text-white shadow-md sticky top-0 z-50'>
         <div className='px-4 py-4 flex items-center justify-between'>
           <div className='flex flex-row gap-2 items-center'>
             <button
@@ -153,13 +152,12 @@ const AppBar = () => {
             >
               <MenuButton />
             </button>
-            <Link
-              href='/'
-              className='cursor-pointer hover:opacity-80 transition-opacity'
-              aria-label='Go to home'
-            >
-              <LogoIcon />
-            </Link>
+            <div className='flex flex-row gap-2 items-center cursor-pointer hover:opacity-80 transition-opacity'>
+              <Link href='/' aria-label='Go to home'>
+                <LogoIcon />
+              </Link>
+              <h1 className='font-bold text-lg hidden md:flex'>CL</h1>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -205,16 +203,22 @@ const AppBar = () => {
                 </button>
                 <div className='absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] rounded-md shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200'>
                   <Link
-                    href='/components/charts/bar'
+                    href='/components/charts/barchart'
                     className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
                   >
                     Bar Chart
                   </Link>
                   <Link
-                    href='/components/charts/pie'
+                    href='/components/charts/piechart'
                     className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
                   >
                     Pie Chart
+                  </Link>
+                  <Link
+                    href='/components/charts/radarchart'
+                    className='block px-4 py-2 text-sm text-gray-300 hover:bg-[#2a2a2a] hover:text-white transition-colors'
+                  >
+                    Radar Chart
                   </Link>
                 </div>
               </div>

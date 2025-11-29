@@ -54,6 +54,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             ref={ref}
+            type='email'
             className={`text-white border focus:outline-none focus:ring-2 focus:border-transparent transition-all w-full ${className}`}
             style={{
               padding: 'var(--spacing-md)',
