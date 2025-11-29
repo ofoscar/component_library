@@ -24,12 +24,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref,
   ) => {
-    const baseStyles = 'rounded-lg bg-white border transition-all';
+    const baseStyles = 'rounded-lg bg-[#141414] border transition-all';
 
     const variants = {
-      default: 'border-gray-200 shadow-sm',
-      elevated: 'border-gray-200 shadow-lg hover:shadow-xl',
-      outlined: 'border-gray-300 shadow-none hover:shadow-sm',
+      default: 'border-[#464646] shadow-sm',
+      elevated: 'border-[#464646] shadow-lg hover:shadow-xl',
+      outlined: 'border-[#464646] shadow-none hover:shadow-sm',
     };
 
     const paddings = {
@@ -50,11 +50,11 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         {(title || subtitle) && (
           <div className='mb-4 w-full'>
             {title && (
-              <h3 className='text-lg font-semibold text-gray-900 mb-1'>
+              <h3 className='text-lg font-semibold text-[#FFFFFF] mb-1'>
                 {title}
               </h3>
             )}
-            {subtitle && <p className='text-sm text-gray-600'>{subtitle}</p>}
+            {subtitle && <p className='text-sm text-[#FFFFFF]'>{subtitle}</p>}
           </div>
         )}
         {children}

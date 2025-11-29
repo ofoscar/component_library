@@ -23,11 +23,11 @@ const BarChart: React.FC<BarChartProps> = ({
 }) => {
   const maxValue = Math.max(...data.map((d) => d.value), 1); // Ensure minimum of 1 to avoid division by zero
   const colors = [
-    '#3B82F6', // blue
+    '#187DBA', // blue
+    '#BA181B', // red
     '#8B5CF6', // purple
     '#10B981', // green
     '#F59E0B', // yellow
-    '#EF4444', // red
     '#6B7280', // gray
   ];
 
@@ -50,14 +50,12 @@ const BarChart: React.FC<BarChartProps> = ({
   const chartHeight = height - 60; // Reserve space for labels
 
   return (
-    <div
-      className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}
-    >
+    <div className={`bg-[#292828]/40 rounded-lg px-2 py-4 ${className}`}>
       {title && (
         <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
       )}
 
-      <div className='flex gap-4'>
+      <div className='flex'>
         {/* Y-axis labels and grid */}
         <div
           className='flex flex-col justify-between text-xs text-gray-500'
@@ -80,6 +78,7 @@ const BarChart: React.FC<BarChartProps> = ({
             className='absolute inset-0'
             style={{ height: `${chartHeight}px`, top: 0 }}
           >
+            {/* Horizontal grid lines */}
             {gridValues
               .slice()
               .reverse()
@@ -88,11 +87,23 @@ const BarChart: React.FC<BarChartProps> = ({
                 return (
                   <div
                     key={value}
-                    className='absolute w-full border-t border-gray-200'
+                    className='absolute w-full border-t border-dashed border-gray-300/30'
                     style={{ top: `${y}px` }}
                   />
                 );
               })}
+
+            {/* Vertical grid lines */}
+            {data.map((item, index) => {
+              const x = ((index + 0.5) / data.length) * 100;
+              return (
+                <div
+                  key={`v-${item.label}-${index}`}
+                  className='absolute h-full border-l border-dashed border-gray-300/30'
+                  style={{ left: `${x}%` }}
+                />
+              );
+            })}
           </div>
 
           {/* Bars */}
@@ -114,7 +125,7 @@ const BarChart: React.FC<BarChartProps> = ({
                 >
                   {/* Value display above bar */}
                   {item.value > 0 && (
-                    <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-gray-700 whitespace-nowrap'>
+                    <div className='absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-semibold text-gray-200 whitespace-nowrap'>
                       {item.value}
                     </div>
                   )}

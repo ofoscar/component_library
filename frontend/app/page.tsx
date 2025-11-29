@@ -1,17 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import AnimatedBackground from './components/AnimatedBackground';
 import AppBar from './components/AppBar';
 import Button from './components/Button';
-import Card from './components/Card';
-import Input from './components/Input';
-import LoginForm from './components/LoginForm';
-import BarChart from './components/charts/BarChart';
-import PieChart from './components/charts/PieChart';
+import Card from './components/card';
+import BarChart from './components/charts/barchart';
+import PieChart from './components/charts/piechart';
+import Footer from './components/Footer';
+import Input from './components/input';
+import LoginForm from './components/loginform';
 import { Modal } from './components/ui';
 import { useAuth } from './services/auth-context';
-import { subscribeAPI } from './services/subscribeAPI';
-import { trackingAPI, TrackingStats } from './services/trackingAPI';
+import { subscribeAPI } from './services/subscribeapi';
+import { trackingAPI, TrackingStats } from './services/trackingapi';
 
 export const Hero = () => {
   const [email, setEmail] = React.useState('');
@@ -72,58 +74,68 @@ export const Hero = () => {
   };
 
   return (
-    <div className='w-full h-96 bg-blue-200 flex flex-col items-center justify-center p-4'>
-      {/* Subscriber Counter */}
-      <div className='mb-6 text-center'>
-        <div className='bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 inline-block'>
-          <p className='text-blue-800 text-sm font-medium'>
+    <AnimatedBackground className='w-full h-96'>
+      {/* Subscription Form */}
+      <div className='flex flex-col items-center justify-center h-96 p-4 relative'>
+        <div className='flex flex-col gap-4 w-full max-w-md'>
+          <h1 className='text-2xl font-bold text-center text-white'>
+            Receive more information about this component library
+          </h1>
+          <Input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder='Email address'
+            fullWidth
+            disabled={isSubmitting}
+          />
+          <Button
+            onClick={handleSubscribe}
+            variant='primary'
+            size='lg'
+            fullWidth
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+          </Button>
+          {message && (
+            <div
+              className={`text-sm text-center p-2 rounded backdrop-blur-sm ${
+                isSuccess
+                  ? 'text-green-100 bg-green-900/30 border border-green-500/50'
+                  : 'text-red-100 bg-red-900/30 border border-red-500/50'
+              }`}
+            >
+              {message}
+            </div>
+          )}
+        </div>
+        <div className='absolute bottom-0 right-0 h-full flex items-end p-4'>
+          <div className='bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2'>
             {isLoadingCount ? (
-              'Loading subscribers...'
+              <span className='text-white text-sm'>...</span>
             ) : (
               <>
-                <span className='text-2xl font-bold'>
-                  {subscriberCount?.toLocaleString()}
+                <span className='text-white text-lg font-bold'>
+                  {subscriberCount?.toLocaleString() || '0'}
                 </span>
-                <span className='ml-2'>
-                  {subscriberCount === 1 ? 'subscriber' : 'subscribers'} joined
-                </span>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  width='24'
+                  height='24'
+                  viewBox='0 0 24 24'
+                >
+                  <rect width='24' height='24' fill='none' />
+                  <path
+                    fill='#D7D7D7'
+                    d='M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4'
+                  />
+                </svg>
               </>
             )}
-          </p>
+          </div>
         </div>
       </div>
-
-      {/* Subscription Form */}
-      <div className='flex flex-col gap-4 w-full max-w-md'>
-        <Input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder='Email address'
-          fullWidth
-          disabled={isSubmitting}
-        />
-        <Button
-          onClick={handleSubscribe}
-          variant='primary'
-          size='lg'
-          fullWidth
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-        </Button>
-        {message && (
-          <div
-            className={`text-sm text-center p-2 rounded ${
-              isSuccess
-                ? 'text-green-800 bg-green-100 border border-green-200'
-                : 'text-red-800 bg-red-100 border border-red-200'
-            }`}
-          >
-            {message}
-          </div>
-        )}
-      </div>
-    </div>
+    </AnimatedBackground>
   );
 };
 
@@ -161,7 +173,12 @@ export const OpenModalButton = ({
   };
 
   return (
-    <Button variant='outline' size='sm' onClick={handleClick}>
+    <Button
+      className='border border-transparent'
+      variant='outline'
+      size='sm'
+      onClick={handleClick}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         width='24'
@@ -170,19 +187,19 @@ export const OpenModalButton = ({
       >
         <rect width='24' height='24' fill='none' />
         <path
-          fill='#000'
+          fill='#757575'
           d='M4 4V3H3v1zm7.293 8.707a1 1 0 0 0 1.414-1.414zM5 10V4H3v6zM4 5h6V3H4zm-.707-.293l8 8l1.414-1.414l-8-8z'
         />
         <path
-          fill='#000'
+          fill='#757575'
           d='M4 20v1H3v-1zm7.293-8.707a1 1 0 0 1 1.414 1.414zM5 14v6H3v-6zm-1 5h6v2H4zm-.707.293l8-8l1.414 1.414l-8 8z'
         />
         <path
-          fill='#000'
+          fill='#757575'
           d='M20 4V3h1v1zm-7.293 8.707a1 1 0 0 1-1.414-1.414zM19 10V4h2v6zm1-5h-6V3h6zm.707-.293l-8 8l-1.414-1.414l8-8z'
         />
         <path
-          fill='#000'
+          fill='#757575'
           d='M20 20v1h1v-1zm-7.293-8.707a1 1 0 0 0-1.414 1.414zM19 14v6h2v-6zm1 5h-6v2h6zm.707.293l-8-8l-1.414 1.414l8 8z'
         />
       </svg>
@@ -270,18 +287,18 @@ const HomePage = () => {
                     {
                       label: 'Button',
                       value: trackingStats?.totalCount || 0,
-                      color: '#3B82F6',
+                      color: '#187DBA',
                     },
-                    { label: 'Input', value: 15, color: '#8B5CF6' },
+                    { label: 'Input', value: 15, color: '#BA181B' },
                     {
                       label: 'Modal',
                       value:
                         trackingStats?.clickCounts?.find(
                           (item) => item._id.buttonId === 'modal-open-button',
                         )?.count || 0,
-                      color: '#10B981',
+                      color: '#C8C546',
                     },
-                    { label: 'Card', value: 25, color: '#F59E0B' },
+                    { label: 'Card', value: 25, color: '#46C86A' },
                   ]}
                   height={200}
                   className='w-full'
@@ -290,6 +307,7 @@ const HomePage = () => {
               <Button
                 variant='primary'
                 size='md'
+                fullWidth
                 onClick={handleTestButtonClick}
               >
                 Test Button
@@ -297,7 +315,7 @@ const HomePage = () => {
             </div>
 
             {/* Real-time click count */}
-            <div className='mt-4 text-center'>
+            {/* <div className='mt-4 text-center'>
               <p className='text-sm text-gray-600'>
                 {isTrackingLoading ? (
                   'Loading clicks...'
@@ -312,12 +330,14 @@ const HomePage = () => {
                   'Click tracking enabled'
                 )}
               </p>
-            </div>
+            </div> */}
           </Card>
           <Card
             title='Features'
             subtitle='Everything you need'
             variant='outlined'
+            className='w-full'
+            padding='sm'
           >
             <div className='w-full'>
               <PieChart
@@ -475,6 +495,7 @@ const HomePage = () => {
           </div>
         </div>
       </Modal>
+      <Footer />
     </div>
   );
 };

@@ -38,9 +38,7 @@ const PieChart: React.FC<PieChartProps> = ({
 
   if (total === 0) {
     return (
-      <div
-        className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}
-      >
+      <div className={`bg-[#292828]/40 rounded-lg px-3 py-4 ${className}`}>
         {title && (
           <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
         )}
@@ -97,10 +95,27 @@ const PieChart: React.FC<PieChartProps> = ({
     return `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
   };
 
+  // Function to calculate label position (middle of the slice)
+  const getLabelPosition = (
+    startAngle: number,
+    endAngle: number,
+    radius: number,
+  ) => {
+    const centerX = size / 2;
+    const centerY = size / 2;
+    const midAngle = (startAngle + endAngle) / 2;
+    const midAngleRad = (midAngle - 90) * (Math.PI / 180);
+
+    // Position label at 60% of radius from center
+    const labelRadius = radius * 0.6;
+    const x = centerX + labelRadius * Math.cos(midAngleRad);
+    const y = centerY + labelRadius * Math.sin(midAngleRad);
+
+    return { x, y };
+  };
+
   return (
-    <div
-      className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}
-    >
+    <div className={`bg-[#292828]/40 rounded-lg px-3 py-4 ${className}`}>
       {title && (
         <h3 className='text-lg font-semibold text-gray-900 mb-4'>{title}</h3>
       )}
@@ -113,33 +128,69 @@ const PieChart: React.FC<PieChartProps> = ({
         {/* Pie Chart SVG */}
         <div className='relative group flex justify-center md:justify-start'>
           <svg width={size} height={size} className='drop-shadow-sm'>
-            {slices.map((slice, index) => (
-              <g
-                key={slice.label}
-                className='hover:opacity-80 transition-opacity duration-200'
-              >
-                <path
-                  d={createPath(slice.startAngle, slice.endAngle, size * 0.4)}
-                  fill={slice.color}
-                  stroke='white'
-                  strokeWidth='2'
-                  className='cursor-pointer'
-                />
-                {/* Tooltip on hover */}
-                <title>
-                  {slice.label}: {slice.value} ({slice.percentage.toFixed(1)}%)
-                </title>
-              </g>
-            ))}
+            {slices.map((slice, index) => {
+              const labelPos = getLabelPosition(
+                slice.startAngle,
+                slice.endAngle,
+                size * 0.4,
+              );
+
+              return (
+                <g
+                  key={slice.label}
+                  className='hover:opacity-80 transition-opacity duration-200'
+                >
+                  <path
+                    d={createPath(slice.startAngle, slice.endAngle, size * 0.4)}
+                    fill={slice.color}
+                    stroke='white'
+                    strokeWidth='2'
+                    className='cursor-pointer'
+                  />
+                  {/* Label inside slice */}
+                  {slice.percentage > 5 && ( // Only show label if slice is large enough
+                    <text
+                      x={labelPos.x}
+                      y={labelPos.y}
+                      textAnchor='middle'
+                      dominantBaseline='middle'
+                      className='pointer-events-none'
+                    >
+                      <tspan
+                        x={labelPos.x}
+                        dy='-0.3em'
+                        className='fill-white text-xs font-semibold'
+                        style={{ fontSize: size > 150 ? '12px' : '10px' }}
+                      >
+                        {slice.label}
+                      </tspan>
+                      <tspan
+                        x={labelPos.x}
+                        dy='1.2em'
+                        className='fill-white text-xs'
+                        style={{ fontSize: size > 150 ? '11px' : '9px' }}
+                      >
+                        {slice.value}
+                      </tspan>
+                    </text>
+                  )}
+                  {/* Tooltip on hover */}
+                  <title>
+                    {slice.label}: {slice.value} ({slice.percentage.toFixed(1)}
+                    %)
+                  </title>
+                </g>
+              );
+            })}
           </svg>
 
           {/* Center label showing total */}
-          <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
+          {/* <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
             <div className='text-center'>
               <div className='text-2xl font-bold text-gray-900'>{total}</div>
               <div className='text-xs text-gray-500'>Total</div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Legend */}
@@ -152,7 +203,7 @@ const PieChart: React.FC<PieChartProps> = ({
                   style={{ backgroundColor: slice.color }}
                 />
                 <div className='flex flex-col min-w-0'>
-                  <span className='text-sm font-medium text-gray-900 truncate'>
+                  <span className='text-sm font-medium text-gray-300 truncate'>
                     {slice.label}
                   </span>
                   <span className='text-xs text-gray-500'>
@@ -168,7 +219,7 @@ const PieChart: React.FC<PieChartProps> = ({
       {/* Summary stats */}
       <div className='mt-4 pt-4 border-t border-gray-100'>
         <div className='flex justify-between items-center text-sm'>
-          <span className='text-gray-600'>
+          <span className='text-gray-300'>
             {slices.length} component{slices.length !== 1 ? 's' : ''} tracked
           </span>
           <span className='font-medium text-gray-900'>
