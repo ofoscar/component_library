@@ -88,7 +88,7 @@ describe('Tracking System Integration Tests', () => {
       });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.any(String),
+        expect.stringContaining('/api/components/track'),
         expect.objectContaining({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -123,7 +123,7 @@ describe('Tracking System Integration Tests', () => {
 
       expect(result).toEqual(mockResponse);
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/tracking/button-click'),
+        expect.stringContaining('/api/components/track'),
         expect.objectContaining({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -231,7 +231,7 @@ describe('Tracking System Integration Tests', () => {
 
       expect(result).toEqual(mockStats);
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/tracking/stats'),
+        expect.stringContaining('/api/components/stats'),
         expect.objectContaining({
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -288,7 +288,7 @@ describe('Tracking System Integration Tests', () => {
 
       expect(result).toEqual(mockData);
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/tracking/export?format=json'),
+        expect.stringContaining('/api/components/export?format=json'),
         expect.objectContaining({
           method: 'GET',
           headers: expect.objectContaining({
@@ -310,7 +310,7 @@ describe('Tracking System Integration Tests', () => {
 
       expect(result).toBeInstanceOf(Blob);
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/tracking/export?format=csv'),
+        expect.stringContaining('/api/components/export?format=csv'),
         expect.any(Object),
       );
     });
@@ -362,11 +362,11 @@ describe('Tracking System Integration Tests', () => {
       await trackingAPI.trackButtonClick({
         buttonId: 'test',
         buttonText: 'Test',
-      });
+      );
 
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('/api/tracking/button-click'),
-        expect.any(Object),
+        expect.stringContaining('/api/components/track'),
+        expect.any(Object)
       );
     });
   });

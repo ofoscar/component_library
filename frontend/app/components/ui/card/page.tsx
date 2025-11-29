@@ -406,6 +406,85 @@ export default function CardShowcase() {
               </div>
             </div>
           </Card>
+
+          {/* Card with Image */}
+          <Card
+            title='Beautiful Destination'
+            subtitle='Explore the world with us'
+            variant='elevated'
+            padding='md'
+            image='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop'
+            imageAlt='Mountain landscape'
+            imageHeight={250}
+          >
+            <div className='space-y-4'>
+              <p className='text-gray-300 text-sm'>
+                Discover breathtaking landscapes and unforgettable experiences.
+                Join us on a journey to the most beautiful destinations around
+                the globe.
+              </p>
+
+              <div className='flex items-center gap-4 text-sm text-gray-400'>
+                <span>📍 Norway</span>
+                <span>⭐ 4.9/5</span>
+                <span>💰 $1,299</span>
+              </div>
+
+              <div className='flex gap-3 pt-4 border-t border-[#464646]'>
+                <Button variant='outline' size='md' className='flex-1'>
+                  Learn More
+                </Button>
+                <Button variant='primary' size='md' className='flex-1'>
+                  Book Now
+                </Button>
+              </div>
+            </div>
+          </Card>
+
+          {/* Product Card with Image */}
+          <Card
+            title='Premium Headphones'
+            subtitle='Wireless | Noise Cancelling'
+            variant='outlined'
+            padding='md'
+            image='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=400&fit=crop'
+            imageAlt='Premium headphones'
+            imageHeight={200}
+          >
+            <div className='space-y-4'>
+              <div className='flex items-baseline gap-2'>
+                <span className='text-3xl font-bold text-white'>$299</span>
+                <span className='text-lg text-gray-400 line-through'>$399</span>
+                <span className='text-sm text-green-400 bg-green-500/20 px-2 py-1 rounded'>
+                  Save 25%
+                </span>
+              </div>
+
+              <ul className='space-y-2 text-sm text-gray-300'>
+                <li className='flex items-center gap-2'>
+                  <span className='text-green-400'>✓</span>
+                  <span>30-hour battery life</span>
+                </li>
+                <li className='flex items-center gap-2'>
+                  <span className='text-green-400'>✓</span>
+                  <span>Active noise cancellation</span>
+                </li>
+                <li className='flex items-center gap-2'>
+                  <span className='text-green-400'>✓</span>
+                  <span>Premium sound quality</span>
+                </li>
+              </ul>
+
+              <div className='flex gap-3 pt-4 border-t border-[#464646]'>
+                <Button variant='outline' size='md' className='flex-1'>
+                  View Details
+                </Button>
+                <Button variant='primary' size='md' className='flex-1'>
+                  Add to Cart
+                </Button>
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
       <Footer />

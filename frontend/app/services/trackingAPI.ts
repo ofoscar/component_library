@@ -78,7 +78,7 @@ class TrackingAPI {
       },
     };
 
-    const response = await fetch(`${API_BASE_URL}/tracking/button-click`, {
+    const response = await fetch(`${API_BASE_URL}/components/track`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ class TrackingAPI {
     const params = new URLSearchParams();
     if (buttonId) params.set('buttonId', buttonId);
 
-    const url = `${API_BASE_URL}/tracking/stats${
+    const url = `${API_BASE_URL}/components/stats${
       params.toString() ? `?${params}` : ''
     }`;
 
@@ -132,10 +132,13 @@ class TrackingAPI {
     }
 
     const params = new URLSearchParams({ format });
-    const response = await fetch(`${API_BASE_URL}/tracking/export?${params}`, {
-      method: 'GET',
-      headers,
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/components/export?${params}`,
+      {
+        method: 'GET',
+        headers,
+      },
+    );
 
     if (!response.ok) {
       const error = await response.json();

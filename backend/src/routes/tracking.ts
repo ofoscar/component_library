@@ -4,8 +4,8 @@ import { ButtonClick } from '../models/ButtonClick';
 
 const router = express.Router();
 
-// POST /api/tracking/button-click - Track button click
-router.post('/button-click', async (req: Request, res: Response) => {
+// POST /api/components/track - Track button click
+router.post('/track', async (req: Request, res: Response) => {
   try {
     const { buttonId, buttonText, sessionId, metadata = {} } = req.body;
 
@@ -46,7 +46,7 @@ router.post('/button-click', async (req: Request, res: Response) => {
   }
 });
 
-// GET /api/tracking/stats - Get button click statistics
+// GET /api/components/stats - Get button click statistics
 router.get('/stats', async (req: Request, res: Response) => {
   try {
     const { buttonId, limit = 100, offset = 0 } = req.query;
@@ -115,7 +115,7 @@ router.get('/stats', async (req: Request, res: Response) => {
   }
 });
 
-// GET /api/tracking/export - Export click data (protected route)
+// GET /api/components/export - Export click data (protected route)
 router.get(
   '/export',
   authMiddleware,
