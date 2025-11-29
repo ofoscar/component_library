@@ -1,5 +1,4 @@
-Demo
-https://frontend-production-02bd.up.railway.app/
+Demo https://frontend-production-02bd.up.railway.app/
 
 # Component Library - Reusable UI Components with Analytics
 
