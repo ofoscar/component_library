@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { authAPI, AuthResponse, User } from './authapi';
+import { authAPI, AuthResponse, User } from './authAPI';
 
 interface AuthContextType {
   user: User | null;

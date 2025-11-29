@@ -1,5 +1,5 @@
 import { User, UsersProvider } from '../services/users-provider';
-import { UsersList } from './components/userslist';
+import { UsersList } from './components/UsersList';
 
 const UsersPage = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/users', {

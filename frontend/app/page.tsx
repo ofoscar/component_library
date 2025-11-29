@@ -9,11 +9,11 @@ import BarChart from './components/charts/BarChart';
 import PieChart from './components/charts/PieChart';
 import Footer from './components/Footer';
 import Input from './components/Input';
-import LoginForm from './components/loginform';
+import LoginForm from './components/LoginForm';
 import { Modal } from './components/ui';
 import { useAuth } from './services/auth-context';
-import { subscribeAPI } from './services/subscribeapi';
-import { trackingAPI, TrackingStats } from './services/trackingapi';
+import { subscribeAPI } from './services/subscribeAPI';
+import { trackingAPI, TrackingStats } from './services/trackingAPI';
 
 export const Hero = () => {
   const [email, setEmail] = React.useState('');
