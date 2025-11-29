@@ -74,7 +74,7 @@ export const Hero = () => {
   };
 
   return (
-    <AnimatedBackground className='w-full h-96'>
+    <AnimatedBackground className='w-screen h-96'>
       {/* Subscription Form */}
       <div className='flex flex-col items-center justify-center h-96 p-4 relative'>
         <div className='flex flex-col gap-4 w-full max-w-md'>
